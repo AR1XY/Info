@@ -9,14 +9,14 @@
     <style>
         :root {
             --main-color: #007bff;
-            --dark-btn: #0056b3; /* Темнее для VPN */
+            --dark-btn: #004494; /* Темнее для VPN */
             --btn-text: #ffffff;
             --glow: rgba(0, 123, 255, 0.6);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
-            --dark-btn: #8b0000; /* Темно-красный для VPN */
+            --dark-btn: #660000; /* Темно-красный для VPN */
             --btn-text: #000000;
             --glow: rgba(255, 0, 0, 0.8);
         }
@@ -116,10 +116,10 @@
             transition: 0.3s;
         }
 
-        /* Специальный стиль для кнопки VPN (чуть темнее) */
         .btn-vpn {
-            background: var(--dark-btn);
+            background: var(--dark-btn) !important;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            margin-top: 10px;
         }
 
         .btn-custom:hover {
@@ -178,10 +178,10 @@
     <div class="status-online"><div class="dot"></div> Online</div>
     
     <a href="https://t.me/odwob" class="btn-custom">
-        <i class="fab fa-telegram"></i> Telegram
+        <i class="fab fa-telegram"></i> Мой Telegram
     </a>
     <a href="https://t.me/Lqphu" class="btn-custom">
-        <i class="fas fa-users"></i> ТГК
+        <i class="fas fa-users"></i> Мой ТГК
     </a>
     <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom">
         <i class="fab fa-tiktok"></i> Мой Тик Ток
@@ -194,7 +194,7 @@
     </a>
 
     <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn">
-        <i class="fas fa-shield-alt"></i> Лучший VPN
+        <i class="fas fa-shield-alt"></i> лучший впн
     </a>
 
     <div class="visitor-counter">
