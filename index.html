@@ -6,52 +6,53 @@
     <title>AR1XY INFO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main-color: #007bff; --glow: rgba(0, 123, 255, 0.6); }
-        [data-theme="red"] { --main-color: #ff0000; --glow: rgba(255, 0, 0, 0.7); }
-        [data-theme="gold"] { --main-color: #ffca28; --glow: rgba(255, 202, 40, 0.6); }
-        [data-theme="hacker"] { --main-color: #00ff41; --glow: rgba(0, 255, 65, 0.6); }
+        /* ПАЛИТРА ТЕМ */
+        :root { --main: #007bff; --bg-btn: #0056b3; --glow: rgba(0, 123, 255, 0.5); }
+        [data-theme="red"] { --main: #ff0000; --bg-btn: #b30000; --glow: rgba(255, 0, 0, 0.5); }
+        [data-theme="gold"] { --main: #ffca28; --bg-btn: #c79a00; --glow: rgba(255, 202, 40, 0.5); }
+        [data-theme="hacker"] { --main: #00ff41; --bg-btn: #008f24; --glow: rgba(0, 255, 65, 0.5); }
 
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; touch-action: manipulation; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
         .container { max-width: 420px; width: 95%; text-align: center; padding: 20px 0; }
         
-        /* ТОТ САМЫЙ ЗАГОЛОВОК */
-        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); margin-bottom: 20px; cursor: pointer; user-select: none; }
+        h1 { font-weight: 900; text-transform: uppercase; color: var(--main); text-shadow: 0 0 20px var(--glow); margin-bottom: 5px; cursor: pointer; }
+        .online-status { color: #00ff41; font-size: 14px; margin-bottom: 20px; display: block; }
 
-        .btn-custom {
-            background: var(--main-color); color: #fff !important; border: none; border-radius: 12px; padding: 14px; margin-bottom: 10px;
-            width: 100%; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px;
-            text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s;
+        /* КНОПКИ В СТИЛЕ ФОТО */
+        .btn-main {
+            width: 100%; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            text-decoration: none; color: #fff !important; margin-bottom: 12px; border: none;
+            transition: 0.3s; cursor: pointer; text-transform: uppercase;
         }
+        
+        /* РАЗНЫЕ ОТТЕНКИ ДЛЯ КНОПОК */
+        .c-1 { background: var(--main); box-shadow: 0 0 15px var(--glow); }
+        .c-2 { background: #1c1c1c; border: 1px solid var(--main); }
+        .c-3 { background: #000; border: 1px solid #fff; }
+        .c-4 { background: var(--bg-btn); box-shadow: 0 0 10px var(--glow); }
 
-        .balance-card { background: #111; border: 1px solid var(--main-color); border-radius: 15px; padding: 10px; margin: 15px 0; box-shadow: 0 0 15px var(--glow); }
-        #global-bal { font-size: 1.4rem; color: #ffca28; }
+        .balance-card { background: #0a0a0a; border: 1px solid var(--main); border-radius: 15px; padding: 15px; margin: 20px 0; box-shadow: 0 0 15px var(--glow); }
+        #global-bal { font-size: 2rem; color: #ffca28; }
 
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .btn-game { 
-            background: var(--main-color); border: none; color: #fff; padding: 15px; border-radius: 15px; 
-            font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 0 10px var(--glow);
+            background: #000; border: 1px solid var(--main); color: #fff; padding: 15px; border-radius: 12px; 
+            font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
 
-        .promo-box { display: flex; gap: 5px; margin-bottom: 15px; }
-        .promo-box input { flex: 1; background: #111; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 10px; outline: none; }
-        .promo-box button { background: var(--main-color); border: none; border-radius: 10px; color: #fff; padding: 0 15px; font-weight: bold; }
+        .theme-menu { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .theme-dot { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; transition: 0.3s; }
+        .theme-dot:hover { transform: scale(1.2); }
 
-        .theme-menu { display: flex; justify-content: center; gap: 12px; margin-bottom: 15px; }
-        .theme-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; }
-
-        .particle { position: fixed; pointer-events: none; border-radius: 50%; z-index: 9999; animation: fadeOut 0.6s ease-out forwards; background: var(--main-color); }
-        @keyframes fadeOut { to { opacity: 0; transform: translate(var(--mx), var(--my)) scale(0.2); } }
-
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px; }
-        .cell { width: 50px; height: 50px; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .cell { width: 50px; height: 50px; background: #111; border-radius: 8px; border: 1px solid var(--main); display: flex; align-items: center; justify-content: center; font-size: 20px; }
     </style>
 </head>
-<body onmousedown="createParticle(event)" ontouchstart="createParticle(event)">
+<body>
 
 <div class="container">
-    <h1 id="adm-btn">AR1XY INFO</h1>
-
     <div class="theme-menu">
         <div class="theme-dot" style="background:#007bff" onclick="setTheme('default')"></div>
         <div class="theme-dot" style="background:#ff0000" onclick="setTheme('red')"></div>
@@ -59,104 +60,106 @@
         <div class="theme-dot" style="background:#00ff41" onclick="setTheme('hacker')"></div>
     </div>
 
-    <a href="https://t.me/odwob" class="btn-custom"><i class="fab fa-telegram"></i> TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-custom" style="background:#333!important;"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-custom" style="background:#000!important; border:1px solid #fff;"><i class="fab fa-tiktok"></i> TIK TOK</a>
+    <h1 id="adm-btn">AR1XY INFO</h1>
+    <span class="online-status">● Online</span>
+
+    <a href="https://t.me/odwob" class="btn-main c-1"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-main c-2"><i class="fas fa-users"></i> МОЙ ТГК</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-main c-3"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-main c-4"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="https://t.me/vopros_ar1xy_bot" class="btn-main c-1"><i class="fas fa-comment-dots"></i> АНОН ВОПРОСЫ</a>
+    <a href="https://t.me/bypassrtp" class="btn-main c-2"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
     <div class="balance-card">
-        <small>ТВОЙ БАЛАНС</small><br>
-        <b id="global-bal">1000</b> 💸
+        <small>БАЛАНС:</small><br>
+        <b id="global-bal">0</b> 💸
     </div>
 
-    <button id="daily-btn" onclick="claimDaily()" class="btn-custom" style="background:#ffca28!important; color:#000!important;"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
+    <button onclick="claimDaily()" class="btn-main" style="background:#ffca28; color:#000!important;"><i class="fas fa-star"></i> ЕЖЕДНЕВНЫЙ БОНУС</button>
 
-    <div class="promo-box">
-        <input type="text" id="p-in" placeholder="Промокод">
-        <button onclick="usePromo()">OK</button>
+    <h3 style="margin: 20px 0 10px;">МИНИ-ИГРЫ</h3>
+    <div class="grid">
+        <button onclick="initMines()" class="btn-game"><i class="fas fa-bomb"></i> МИНЫ</button>
+        <button onclick="startCrash()" class="btn-game"><i class="fas fa-chart-line"></i> КРАШ</button>
     </div>
 
-    <div class="game-grid">
-        <button onclick="openModal('m-click')" class="btn-game"><i class="fas fa-mouse"></i>Кликер</button>
-        <button onclick="openModal('m-case')" class="btn-game"><i class="fas fa-box"></i>Кейс</button>
-        <button onclick="initMines()" class="btn-game"><i class="fas fa-bomb"></i>Мины</button>
-        <button onclick="startCrash()" class="btn-game"><i class="fas fa-chart-line"></i>Краш</button>
+    <h3 style="margin: 10px 0 10px;">МАГАЗИН КЕЙСОВ</h3>
+    <div class="grid">
+        <button onclick="rollCase(100)" class="btn-game">КЕЙС LITE<br><small>100 💸</small></button>
+        <button onclick="rollCase(1000)" class="btn-game">КЕЙС PRO<br><small>1,000 💸</small></button>
     </div>
-
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" style="background:#5d3fd3!important;"><i class="fas fa-gamepad"></i> BRAWL STARS</a>
-</div>
-
-<div id="m-click" class="game-modal">
-    <div id="coin" style="width:150px; height:150px; background:var(--main-color); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:60px; box-shadow:0 0 30px var(--glow);">💎</div>
-    <h2 id="c-count" style="margin-top:20px;">0</h2>
-    <button onclick="closeModals()" class="btn-custom" style="width:120px; background:#333;">ВЫЙТИ</button>
 </div>
 
 <div id="m-case" class="game-modal">
-    <h2 id="case-res">???</h2>
-    <button onclick="openCase()" class="btn-custom" style="width:200px;">ОТКРЫТЬ (500)</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none;">ЗАКРЫТЬ</button>
+    <div id="case-res" style="font-size:50px; font-weight:900;">???</div>
+    <button onclick="closeModals()" class="btn-main c-1" style="width:200px; margin-top:30px;">ЗАКРЫТЬ</button>
 </div>
 
 <div id="m-mines" class="game-modal">
     <div id="m-grid" class="mines-grid"></div>
-    <button id="m-take" onclick="takeMines()" class="btn-custom" style="display:none; width:150px; background:green;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none;">ВЫЙТИ</button>
+    <button id="m-take" onclick="takeMines()" class="btn-main" style="display:none; background:#00ff41; color:#000!important; width:200px;">ЗАБРАТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
+</div>
+
+<div id="m-admin" class="game-modal">
+    <div style="background:#111; padding:20px; border-radius:20px; border:2px solid var(--main); width:80%;">
+        <h3>ADMIN PANEL</h3>
+        <button onclick="bal += 50000; save();" class="btn-main c-1">+50,000 💸</button>
+        <button onclick="bal = 0; save();" class="btn-main c-2">ОБНУЛИТЬ</button>
+        <button onclick="closeModals()" class="btn-main c-3">ЗАКРЫТЬ</button>
+    </div>
 </div>
 
 <script>
-    let bal = parseInt(localStorage.getItem('ar_bal')) || 1000;
+    let bal = parseInt(localStorage.getItem('ar_bal')) || 500;
     let lastD = localStorage.getItem('ar_d') || 0;
-    let aTaps = 0;
     let mPos = [], mActive = false, mWin = 0;
 
     function save() {
         localStorage.setItem('ar_bal', bal);
         localStorage.setItem('ar_d', lastD);
-        document.getElementById('global-bal').innerText = bal;
-        document.getElementById('c-count').innerText = bal;
+        document.getElementById('global-bal').innerText = bal.toLocaleString();
     }
 
-    // ВХОД В АДМИНКУ (5 ТАПОВ ПО ЗАГОЛОВКУ)
+    // ТЕМЫ
+    function setTheme(t) {
+        if(t === 'default') document.body.removeAttribute('data-theme');
+        else document.body.setAttribute('data-theme', t);
+        localStorage.setItem('user_theme', t);
+    }
+
+    // АДМИНКА (5 ТАПОВ ПО ТИТЛУ)
+    let aTaps = 0;
     document.getElementById('adm-btn').onclick = () => {
         aTaps++;
         if(aTaps >= 5) {
-            if(prompt("PASSWORD") === "1234") { bal += 100000; save(); alert("GOD MODE ON"); }
+            if(prompt("PASS") === "1234") openModal('m-admin');
             aTaps = 0;
         }
     };
 
-    function createParticle(e) {
-        let x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
-        let y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
-        for(let i=0; i<5; i++){
-            let p = document.createElement('div'); p.className='particle';
-            p.style.width = p.style.height = '6px';
-            p.style.left = x+'px'; p.style.top = y+'px';
-            p.style.setProperty('--mx', (Math.random()-0.5)*80+'px');
-            p.style.setProperty('--my', (Math.random()-0.5)*80+'px');
-            document.body.appendChild(p); setTimeout(()=>p.remove(), 600);
-        }
-    }
-
-    document.getElementById('coin').onclick = () => { bal++; save(); };
-
-    function openCase() {
-        if(bal < 500) return alert("Мало монет!");
-        bal -= 500; save();
-        let i = 0, el = document.getElementById('case-res');
+    // КЕЙСЫ
+    function rollCase(price) {
+        if(bal < price) return alert("Мало монет!");
+        bal -= price; save();
+        openModal('m-case');
+        let el = document.getElementById('case-res');
+        let i = 0;
         let roll = setInterval(() => {
-            el.innerText = Math.floor(Math.random()*3000) + "💸";
+            el.innerText = Math.floor(Math.random()*price*5) + "💸";
             if(i++ > 15) {
                 clearInterval(roll);
-                let w = [100, 300, 600, 1000, 5000][Math.floor(Math.random()*5)];
-                el.innerText = w + " 💸"; bal += w; save();
+                let win = price === 100 ? [50, 150, 300, 500][Math.floor(Math.random()*4)] : [500, 1500, 3000, 10000][Math.floor(Math.random()*4)];
+                el.innerText = win + " 💸";
+                bal += win; save();
             }
         }, 60);
     }
 
+    // МИНЫ
     function initMines() {
         if(bal < 100) return alert("Ставка 100");
-        bal -= 100; mWin = 0; mActive = true; mPos = []; 
+        bal -= 100; mWin = 0; mActive = true; mPos = [];
         while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
         openModal('m-mines');
         let g = document.getElementById('m-grid'); g.innerHTML = '';
@@ -164,41 +167,34 @@
             let c = document.createElement('div'); c.className = 'cell';
             c.onclick = () => {
                 if(!mActive || c.innerText) return;
-                if(mPos.includes(i)) { c.innerText='💣'; mActive=false; alert("БОМБА!"); closeModals(); }
-                else { c.innerText='💎'; mWin += 50; document.getElementById('m-take').style.display='block'; }
+                if(mPos.includes(i)) { c.innerText='💣'; c.style.background='red'; mActive=false; alert("BOOM!"); setTimeout(closeModals, 800); }
+                else { c.innerText='💎'; mWin += 80; document.getElementById('m-take').style.display='block'; document.getElementById('m-take').innerText=`ЗАБРАТЬ (${mWin+100})`; }
             };
             g.appendChild(c);
         }
         save();
     }
-    function takeMines() { bal += (100 + mWin); mActive = false; alert("+"+(100+mWin)); closeModals(); save(); }
+    function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
 
+    // КРАШ
     function startCrash() {
         if(bal < 100) return alert("Ставка 100");
-        bal -= 100; let m = (Math.random() * 3).toFixed(2);
-        alert(m > 1 ? "КРАШ УСПЕШНО: " + m + "x! +" + Math.floor(100*m) : "КРАШ: 0x!");
-        if(m > 1) bal += Math.floor(100*m); save();
+        bal -= 100;
+        let m = (Math.random() * 3.5).toFixed(2);
+        if(m < 1.1) alert("CRASH 0x");
+        else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w + " (" + m + "x)"); }
+        save();
     }
 
     function claimDaily() {
-        if(Date.now() - lastD < 86400000) return alert("Жди 24ч!");
-        let p = 500; bal += p; lastD = Date.now(); save(); alert("Получил 500!");
-    }
-
-    function usePromo() {
-        let i = document.getElementById('p-in').value.toUpperCase();
-        if(i === 'AR1XY' || i === 'START') { bal += 1000; alert("+1000!"); document.getElementById('p-in').value=''; }
-        else alert("Неверно"); save();
+        if(Date.now() - lastD < 86400000) return alert("Жди 24ч");
+        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸");
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.game-modal').forEach(m => m.style.display='none'); }
-    function setTheme(t) { 
-        if(t === 'default') document.body.removeAttribute('data-theme'); 
-        else document.body.setAttribute('data-theme', t);
-        localStorage.setItem('theme', t);
-    }
-    if(localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
+
+    if(localStorage.getItem('user_theme')) setTheme(localStorage.getItem('user_theme'));
     save();
 </script>
 </body>
