@@ -28,9 +28,10 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Важно для частиц */
             transition: 0.4s;
-            cursor: none; /* Скрываем обычную мышь */
+            cursor: none;
+            touch-action: none; /* Предотвращает стандартные жесты браузера для работы искр */
         }
 
         /* Тот самый закругленный курсор */
@@ -38,13 +39,23 @@
             width: 20px;
             height: 20px;
             background-color: var(--main-color);
-            border-radius: 6px; /* Закругленные углы */
+            border-radius: 6px;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             box-shadow: 0 0 15px var(--main-color);
-            transition: transform 0.1s ease-out, background-color 0.4s, box-shadow 0.4s;
+            transition: transform 0.1s ease-out;
             transform: translate(-50%, -50%);
+        }
+
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
@@ -53,6 +64,7 @@
             text-align: center;
             padding: 30px;
             z-index: 1;
+            position: relative;
         }
 
         h1 {
@@ -98,9 +110,21 @@
             border: 2px solid var(--main-color);
             z-index: 1000;
             color: var(--main-color);
+            box-shadow: 0 0 10px var(--glow);
         }
 
-        /* Убираем кастомный курсор на мобилках */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: move-up 0.8s linear forwards;
+        }
+
+        @keyframes move-up {
+            to { transform: translateY(-40px) scale(0); opacity: 0; }
+        }
+
         @media (max-width: 768px) {
             #custom-cursor { display: none; }
             body { cursor: auto; }
@@ -110,6 +134,7 @@
 <body>
 
 <div id="custom-cursor"></div>
+<div id="particle-container"></div>
 
 <div class="theme-switch" id="theme-btn">
     <i class="fas fa-bolt"></i>
@@ -118,19 +143,19 @@
 <div class="container">
     <h1>AR1XY info</h1>
     
-    <a href="https://t.me/odwob" class="btn-custom" onmouseenter="hoverIn()" onmouseleave="hoverOut()">
+    <a href="https://t.me/odwob" class="btn-custom">
         <i class="fab fa-telegram"></i> Telegram
     </a>
-    <a href="https://t.me/Lqphu" class="btn-custom" onmouseenter="hoverIn()" onmouseleave="hoverOut()">
+    <a href="https://t.me/Lqphu" class="btn-custom">
         <i class="fas fa-users"></i> ТГК
     </a>
-    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom" onmouseenter="hoverIn()" onmouseleave="hoverOut()">
+    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom">
         <i class="fab fa-tiktok"></i> TikTok
     </a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" onmouseenter="hoverIn()" onmouseleave="hoverOut()">
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom">
         <i class="fas fa-gamepad"></i> Brawl Stars
     </a>
-    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom" onmouseenter="hoverIn()" onmouseleave="hoverOut()">
+    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom">
         <i class="fas fa-comment-dots"></i> Вопросы
     </a>
 </div>
@@ -139,23 +164,34 @@
     const cursor = document.getElementById('custom-cursor');
     const body = document.body;
     const btn = document.getElementById('theme-btn');
+    const pContainer = document.getElementById('particle-container');
 
-    // Движение курсора
+    // Функция создания искр
+    function spawnParticle(x, y) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 6 + 2 + 'px';
+        p.style.width = size; p.style.height = size;
+        const color = getComputedStyle(body).getPropertyValue('--main-color');
+        p.style.background = color;
+        p.style.boxShadow = `0 0 8px ${color}`;
+        p.style.left = x + 'px'; p.style.top = y + 'px';
+        pContainer.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+    }
+
+    // Движение мышки
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
+        spawnParticle(e.clientX, e.clientY);
     });
 
-    // Эффекты при наведении
-    function hoverIn() {
-        cursor.style.transform = "translate(-50%, -50%) scale(1.5)";
-        cursor.style.opacity = "0.5";
-    }
-
-    function hoverOut() {
-        cursor.style.transform = "translate(-50%, -50%) scale(1)";
-        cursor.style.opacity = "1";
-    }
+    // Движение пальца (Touch)
+    document.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        spawnParticle(touch.clientX, touch.clientY);
+    }, {passive: true});
 
     // Смена темы
     if (localStorage.getItem('theme') === 'red') {
