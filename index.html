@@ -11,14 +11,14 @@
             --main-color: #007bff;
             --vpn-color: #0049ad;
             --btn-text: #ffffff;
-            --glow: rgba(0, 123, 255, 0.6);
+            --glow: rgba(0, 123, 255, 0.4);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
             --vpn-color: #8a0000;
             --btn-text: #000000;
-            --glow: rgba(255, 0, 0, 0.8);
+            --glow: rgba(255, 0, 0, 0.5);
         }
 
         body {
@@ -36,6 +36,29 @@
             touch-action: none;
         }
 
+        /* Живой фон */
+        .bg-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: var(--main-color);
+            filter: blur(120px);
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            animation: move 15s infinite alternate;
+        }
+        .bg-glow-2 {
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -7s;
+        }
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(20%, 20%); }
+        }
+
         #custom-cursor {
             width: 20px; height: 20px; background-color: var(--main-color);
             border-radius: 6px; position: fixed; pointer-events: none;
@@ -43,11 +66,10 @@
             transform: translate(-50%, -50%);
         }
 
-        #particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        #particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 
-        .container { max-width: 400px; width: 90%; text-align: center; z-index: 1; position: relative; }
+        .container { max-width: 400px; width: 90%; text-align: center; z-index: 5; position: relative; }
 
-        /* Анимация заголовка */
         h1 { 
             font-weight: 900; text-transform: uppercase; color: var(--main-color); 
             text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px;
@@ -59,28 +81,26 @@
             font-size: 0.9rem; margin-bottom: 25px; color: #777;
             animation: fadeIn 1.2s ease-out;
         }
-
         .dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* Базовый стиль кнопок с анимацией появления */
         .btn-custom {
-            background: var(--main-color); color: var(--btn-text) !important;
+            background: rgba(255, 255, 255, 0.05); /* Эффект стекла */
+            background-color: var(--main-color);
+            color: var(--btn-text) !important;
             border: none; border-radius: 15px; padding: 16px; margin-bottom: 15px;
             width: 100%; font-weight: 800; text-transform: uppercase;
             display: flex; align-items: center; justify-content: center; gap: 12px;
             text-decoration: none; box-shadow: 0 0 15px var(--glow); 
             transition: 0.3s;
-            opacity: 0; /* Изначально скрыты для анимации */
+            opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s ease-out forwards;
         }
 
         .btn-vpn { background: var(--vpn-color) !important; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-
         .btn-custom:hover { transform: scale(1.05) translateY(-2px) !important; filter: brightness(1.2); }
 
-        /* Задержки для каждой кнопки (каскад) */
         .btn-custom:nth-child(3) { animation-delay: 0.2s; }
         .btn-custom:nth-child(4) { animation-delay: 0.3s; }
         .btn-custom:nth-child(5) { animation-delay: 0.4s; }
@@ -94,17 +114,9 @@
             animation: fadeIn 1.5s ease-out 1s forwards;
         }
 
-        /* Ключевые кадры анимаций */
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            to { opacity: 0.6; }
-        }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 0.6; } }
 
         .theme-switch {
             position: fixed; top: 20px; right: 20px; cursor: pointer;
@@ -121,6 +133,8 @@
 </head>
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow-2"></div>
 <div id="custom-cursor"></div>
 <div id="particle-container"></div>
 <div class="theme-switch" id="theme-btn"><i class="fas fa-bolt"></i></div>
@@ -150,11 +164,11 @@
     function spawn(x, y) {
         const p = document.createElement('div');
         p.className = 'particle';
-        const size = Math.random() * 10 + 6 + 'px';
+        const size = Math.random() * 10 + 8 + 'px';
         p.style.width = size; p.style.height = size;
         const color = getComputedStyle(body).getPropertyValue('--main-color');
         p.style.background = color;
-        p.style.boxShadow = `0 0 15px ${color}`;
+        p.style.boxShadow = `0 0 20px ${color}`;
         p.style.left = x + 'px'; p.style.top = y + 'px';
         pContainer.appendChild(p);
         setTimeout(() => p.remove(), 1000);
@@ -170,7 +184,6 @@
         spawn(e.touches[0].clientX, e.touches[0].clientY);
     }, {passive: true});
 
-    // Счетчик
     let views = localStorage.getItem('site_views') || 142;
     views++;
     localStorage.setItem('site_views', views);
