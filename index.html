@@ -7,62 +7,60 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main-color: #007bff; --glow: rgba(0, 123, 255, 0.4); }
-        [data-theme="red"] { --main-color: #ff0000; --glow: rgba(255, 0, 0, 0.5); }
+        :root { --main-color: #007bff; --glow: rgba(0, 123, 255, 0.6); }
+        [data-theme="red"] { --main-color: #ff0000; --glow: rgba(255, 0, 0, 0.7); }
 
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
-        
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; touch-action: manipulation; }
         .container { max-width: 420px; width: 95%; text-align: center; z-index: 5; padding: 20px 0; }
+        
         h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); cursor: pointer; margin-bottom: 20px; }
 
+        /* ВЕРНУЛ ТВОЙ СТИЛЬ КНОПОК */
         .btn-custom {
             background: var(--main-color); color: #fff !important; border: none; border-radius: 12px; padding: 14px; margin-bottom: 10px;
             width: 100%; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px;
-            text-decoration: none; box-shadow: 0 0 10px var(--glow); transition: 0.3s;
+            text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s;
         }
 
-        .balance-card { background: #111; border: 1px solid var(--main-color); border-radius: 15px; padding: 10px; margin: 20px 0; }
-        #global-bal { font-size: 1.4rem; color: #ffca28; }
+        .balance-card { background: #111; border: 1px solid var(--main-color); border-radius: 15px; padding: 10px; margin: 15px 0; box-shadow: 0 0 10px var(--glow); }
+        #global-bal { font-size: 1.4rem; color: #ffca28; text-shadow: 0 0 10px rgba(255,202,40,0.5); }
 
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        /* ИГРЫ ОСТАВИЛ СЕТКОЙ */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .btn-game { 
             background: #0a0a0a; border: 1px solid var(--main-color); color: #fff; 
             padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; transition: 0.3s;
+            box-shadow: 0 0 5px var(--glow);
         }
         .btn-game i { display: block; font-size: 1.1rem; margin-bottom: 4px; color: var(--main-color); }
 
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        /* ЭФФЕКТ ЧАСТИЦ */
+        .particle { position: fixed; pointer-events: none; border-radius: 50%; z-index: 9999; animation: fadeOut 0.6s ease-out forwards; }
+        @keyframes fadeOut { to { opacity: 0; transform: translate(var(--mx), var(--my)) scale(0.5); } }
+
+        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .case-anim { width: 100%; height: 80px; border: 2px solid var(--main-color); margin: 20px 0; overflow: hidden; position: relative; background: #111; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 900; border-radius: 15px; box-shadow: 0 0 15px var(--glow); }
         
-        /* КЛИКЕР */
-        #main-coin { width: 140px; height: 140px; background: var(--main-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; margin: 20px auto; box-shadow: 0 0 20px var(--glow); }
-        #main-coin.disabled { opacity: 0.3; transform: scale(0.9); }
+        .promo-box { display: flex; gap: 5px; margin-bottom: 20px; }
+        .promo-box input { flex: 1; background: #111; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 10px; outline: none; box-shadow: inset 0 0 5px #000; }
+        .promo-box button { background: var(--main-color); border: none; border-radius: 10px; color: #fff; padding: 0 15px; font-weight: bold; box-shadow: 0 0 10px var(--glow); }
 
-        /* МИНЫ */
-        .mines-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px 0; }
-        .mine-cell { width: 50px; height: 50px; background: #1a1a1a; border-radius: 6px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; }
-        .mine-cell.open { background: var(--main-color); }
-        .mine-cell.bomb { background: #f00 !important; }
-        .mine-cell.hint { border: 2px solid #0f0; }
-
-        .theme-switch { position: fixed; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--main-color); display: flex; align-items: center; justify-content: center; background: #111; z-index: 1000; }
+        .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; flex-direction: column; align-items: center; justify-content: center; }
+        .admin-card { background: #111; border: 2px solid #0f0; border-radius: 20px; padding: 20px; width: 90%; max-width: 350px; }
     </style>
 </head>
-<body>
-
-<div class="theme-switch" onclick="toggleTheme()"><i class="fas fa-bolt"></i></div>
+<body onmousedown="createParticle(event)" ontouchstart="createParticle(event)">
 
 <div id="modal-clicker" class="game-modal">
     <h2 id="c-count">0</h2>
-    <div id="main-coin">💎</div>
-    <p id="c-status">КЛИКАЙ!</p>
-    <button onclick="closeModals()" style="color:#777; background:none; border:none;">ЗАКРЫТЬ</button>
+    <div id="main-coin" style="width:140px; height:140px; background:var(--main-color); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:50px; margin:20px auto; box-shadow:0 0 30px var(--glow); cursor:pointer;">💎</div>
+    <button onclick="closeModals()" class="btn-custom" style="width:150px; background:#333;">ЗАКРЫТЬ</button>
 </div>
 
-<div id="modal-mines" class="game-modal">
-    <h3>💣 MINES (x<span id="m-mult">1.00</span>)</h3>
-    <div id="m-board" class="mines-board"></div>
-    <button id="m-cash" onclick="cashoutMines()" class="btn-custom" style="display:none; width:180px; background:#28a745;">ЗАБРАТЬ</button>
-    <button id="m-start" onclick="startMines()" class="btn-custom" style="width:180px;">СТАВКА (100)</button>
+<div id="modal-case" class="game-modal">
+    <h3>📦 КЕЙС УДАЧИ</h3>
+    <div class="case-anim" id="case-display">???</div>
+    <button id="case-open-btn" onclick="openCase()" class="btn-custom" style="width:220px;">ОТКРЫТЬ (500 💸)</button>
     <button onclick="closeModals()" style="color:#777; background:none; border:none; margin-top:15px;">ЗАКРЫТЬ</button>
 </div>
 
@@ -70,85 +68,116 @@
     <h1 id="adm-btn">AR1XY INFO</h1>
 
     <a href="https://t.me/odwob" class="btn-custom"><i class="fab fa-telegram"></i> TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-custom" style="background:#333!important;"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-custom" style="background:#000; border:1px solid #fff;"><i class="fab fa-tiktok"></i> TIK TOK</a>
-    <a href="https://t.me/vopros_ar1xy_bot" class="btn-custom" style="background:#55acee!important;"><i class="fas fa-question-circle"></i> АНОН ВОПРОСЫ</a>
+    <a href="https://t.me/Lqphu" class="btn-custom" style="background:#333!important; box-shadow:none;"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-custom" style="background:#000!important; border:1px solid #fff; box-shadow:none;"><i class="fab fa-tiktok"></i> TIK TOK</a>
+    <a href="https://t.me/vopros_ar1xy_bot" class="btn-custom" style="background:#55acee!important; box-shadow:none;"><i class="fas fa-question-circle"></i> АНОН ВОПРОСЫ</a>
 
     <div class="balance-card">
-        <small>БАЛАНС:</small><br>
+        <small>ТВОЙ БАЛАНС:</small><br>
         <b id="global-bal">1000</b> 💸
+    </div>
+
+    <button id="daily-btn" onclick="claimDaily()" class="btn-custom" style="background:#ffca28!important; color:#000!important; box-shadow: 0 0 15px rgba(255,202,40,0.5);"><i class="fas fa-calendar-check"></i> ЕЖЕДНЕВНЫЙ БОНУС</button>
+    <div id="daily-timer" style="font-size:0.7rem; color:#777; display:none; margin-bottom:10px;"></div>
+
+    <div class="promo-box">
+        <input type="text" id="user-promo" placeholder="Промокод...">
+        <button onclick="usePromo()">OK</button>
     </div>
 
     <div class="game-grid">
         <button onclick="openModal('modal-clicker')" class="btn-game"><i class="fas fa-hand-pointer"></i>Кликер</button>
-        <button onclick="openModal('modal-mines')" class="btn-game"><i class="fas fa-bomb"></i>Мины</button>
-        <button onclick="alert('Crash в разработке')" class="btn-game"><i class="fas fa-chart-line"></i>Краш</button>
-        <button onclick="alert('Double в разработке')" class="btn-game"><i class="fas fa-circle-notch"></i>Double</button>
+        <button onclick="openModal('modal-case')" class="btn-game"><i class="fas fa-box-open"></i>Кейс</button>
+        <button onclick="alert('Скоро...')" class="btn-game"><i class="fas fa-bomb"></i>Мины</button>
+        <button onclick="alert('Скоро...')" class="btn-game"><i class="fas fa-chart-line"></i>Краш</button>
     </div>
 
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" style="background:#5d3fd3!important;"><i class="fas fa-gamepad"></i> BRAWL STARS</a>
-    <a href="https://t.me/bypassrtp" class="btn-custom" style="background:#0049ad!important;"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" style="background:#5d3fd3!important; box-shadow:none;"><i class="fas fa-gamepad"></i> BRAWL STARS</a>
+    <a href="https://t.me/bypassrtp" class="btn-custom" style="background:#0049ad!important; box-shadow:none;"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 </div>
 
 <script>
     let bal = parseInt(localStorage.getItem('ar_bal')) || 1000;
-    let clicks = parseInt(localStorage.getItem('ar_cl')) || 0;
-    let isGod = false;
+    let lastDaily = localStorage.getItem('ar_last_daily') || 0;
 
     function save() {
         localStorage.setItem('ar_bal', bal);
-        localStorage.setItem('ar_cl', clicks);
+        localStorage.setItem('ar_last_daily', lastDaily);
         document.getElementById('global-bal').innerText = bal;
-        document.getElementById('c-count').innerText = clicks;
+        updateDailyStatus();
     }
 
-    // CLICKER
-    let canClick = true;
-    document.getElementById('main-coin').onclick = () => {
-        if(!canClick) return;
-        canClick = false; clicks++; bal++; save();
-        document.getElementById('main-coin').classList.add('disabled');
-        setTimeout(() => { canClick = true; document.getElementById('main-coin').classList.remove('disabled'); }, 1000);
-    };
-
-    // MINES
-    let mPos = [], mActive = false, mOpen = 0;
-    function startMines() {
-        if(bal < 100) return alert("Мало монет!");
-        bal -= 100; mOpen = 0; mActive = true; mPos = []; save();
-        while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
-        document.getElementById('m-start').style.display = 'none';
-        document.getElementById('m-cash').style.display = 'block';
-        const board = document.getElementById('m-board'); board.innerHTML = '';
-        for(let i=0; i<25; i++) {
-            let c = document.createElement('div'); c.className = 'mine-cell';
-            if(isGod && mPos.includes(i)) c.classList.add('hint');
-            c.onclick = () => {
-                if(!mActive || c.classList.contains('open')) return;
-                if(mPos.includes(i)) {
-                    c.classList.add('bomb'); c.innerText = '💣'; mActive = false;
-                    alert("BOOM!"); closeModals();
-                } else {
-                    c.classList.add('open'); c.innerText = '💎'; mOpen++;
-                    document.getElementById('m-mult').innerText = (1 + mOpen*0.5).toFixed(2);
-                }
-            };
-            board.appendChild(c);
+    // ЭФФЕКТЫ ПАЛЬЦА
+    function createParticle(e) {
+        let x = e.clientX || e.touches[0].clientX;
+        let y = e.clientY || e.touches[0].clientY;
+        for (let i = 0; i < 6; i++) {
+            let p = document.createElement('div');
+            p.className = 'particle';
+            let size = Math.random() * 8 + 4 + 'px';
+            p.style.width = size; p.style.height = size;
+            p.style.background = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
+            p.style.boxShadow = `0 0 10px ${p.style.background}`;
+            p.style.left = x + 'px'; p.style.top = y + 'px';
+            p.style.setProperty('--mx', (Math.random() - 0.5) * 100 + 'px');
+            p.style.setProperty('--my', (Math.random() - 0.5) * 100 + 'px');
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 600);
         }
     }
-    function cashoutMines() {
-        let w = Math.floor(100 * (1 + mOpen*0.5)); bal += w; mActive = false; save();
-        alert("ВЫИГРАЛ: " + w); closeModals();
+
+    // КЛИКЕР
+    document.getElementById('main-coin').onclick = (e) => {
+        bal += 1; save();
+        document.getElementById('c-count').innerText = bal;
+    };
+
+    // КЕЙС ЗА ВАЛЮТУ
+    function openCase() {
+        if(bal < 500) return alert("Мало 💸");
+        bal -= 500; save();
+        let btn = document.getElementById('case-open-btn');
+        btn.disabled = true;
+        let display = document.getElementById('case-display');
+        let prizes = [100, 200, 500, 1000, 2000, 5000];
+        let count = 0;
+        let run = setInterval(() => {
+            display.innerText = prizes[Math.floor(Math.random()*prizes.length)] + " 💸";
+            if(count++ > 20) {
+                clearInterval(run);
+                let win = prizes[Math.floor(Math.random()*prizes.length)];
+                display.innerText = win + " 💸";
+                bal += win; save();
+                btn.disabled = false;
+            }
+        }, 60);
     }
 
-    function openModal(id) { closeModals(); document.getElementById(id).style.display = 'flex'; }
-    function closeModals() { document.querySelectorAll('.game-modal').forEach(m => m.style.display = 'none'); }
-    function toggleTheme() { document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'red'); }
+    // ЕЖЕДНЕВНЫЙ БОНУС
+    function claimDaily() {
+        if (Date.now() - lastDaily < 86400000) return;
+        let p = Math.floor(Math.random() * 900) + 100;
+        bal += p; lastDaily = Date.now(); save();
+        alert("Бонус: " + p);
+    }
 
-    let aTaps = 0;
-    document.getElementById('adm-btn').onclick = () => {
-        if(++aTaps >= 5) { if(prompt("PASS") === "1234") { isGod = true; bal += 1000000; save(); alert("ADMIN ON"); } aTaps = 0; }
-    };
+    function updateDailyStatus() {
+        let diff = Date.now() - lastDaily;
+        let btn = document.getElementById('daily-btn');
+        if (diff < 86400000) {
+            btn.style.opacity = "0.5"; btn.style.pointerEvents = "none";
+            let rem = 86400000 - diff;
+            document.getElementById('daily-timer').style.display = "block";
+            document.getElementById('daily-timer').innerText = "Доступно через: " + Math.floor(rem/3600000) + "ч";
+        } else {
+            btn.style.opacity = "1"; btn.style.pointerEvents = "all";
+            document.getElementById('daily-timer').style.display = "none";
+        }
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModals() { document.querySelectorAll('.game-modal').forEach(m => m.style.display = 'none'); }
+    function save() { localStorage.setItem('ar_bal', bal); localStorage.setItem('ar_last_daily', lastDaily); document.getElementById('global-bal').innerText = bal; updateDailyStatus(); }
     save();
 </script>
 </body>
