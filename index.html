@@ -9,12 +9,14 @@
     <style>
         :root {
             --main-color: #007bff;
+            --dark-btn: #0056b3; /* Темнее для VPN */
             --btn-text: #ffffff;
             --glow: rgba(0, 123, 255, 0.6);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
+            --dark-btn: #8b0000; /* Темно-красный для VPN */
             --btn-text: #000000;
             --glow: rgba(255, 0, 0, 0.8);
         }
@@ -68,20 +70,40 @@
 
         h1 {
             font-weight: 900;
-            margin-bottom: 40px;
+            margin-bottom: 5px;
             text-transform: uppercase;
             color: var(--main-color);
             text-shadow: 0 0 20px var(--glow);
             letter-spacing: 3px;
         }
 
+        .status-online {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff00;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
         .btn-custom {
             background: var(--main-color);
             color: var(--btn-text) !important;
             border: none;
             border-radius: 15px;
-            padding: 18px;
-            margin-bottom: 20px;
+            padding: 16px;
+            margin-bottom: 15px;
             width: 100%;
             font-weight: 800;
             text-transform: uppercase;
@@ -93,6 +115,19 @@
             box-shadow: 0 0 15px var(--glow);
             transition: 0.3s;
         }
+
+        /* Специальный стиль для кнопки VPN (чуть темнее) */
+        .btn-vpn {
+            background: var(--dark-btn);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .visitor-counter { margin-top: 20px; opacity: 0.4; font-size: 0.8rem; }
 
         .theme-switch {
             position: fixed;
@@ -117,7 +152,7 @@
             border-radius: 50%;
             pointer-events: none;
             opacity: 0.9;
-            filter: blur(1px); /* Эффект мягкого свечения */
+            filter: blur(1px);
             animation: move-up 1s ease-out forwards;
         }
 
@@ -126,10 +161,7 @@
             100% { transform: translate(0, -60px) scale(0); opacity: 0; }
         }
 
-        @media (max-width: 768px) {
-            #custom-cursor { display: none; }
-            body { cursor: auto; }
-        }
+        @media (max-width: 768px) { #custom-cursor { display: none; } body { cursor: auto; } }
     </style>
 </head>
 <body>
@@ -143,6 +175,7 @@
 
 <div class="container">
     <h1>AR1XY info</h1>
+    <div class="status-online"><div class="dot"></div> Online</div>
     
     <a href="https://t.me/odwob" class="btn-custom">
         <i class="fab fa-telegram"></i> Telegram
@@ -151,14 +184,22 @@
         <i class="fas fa-users"></i> ТГК
     </a>
     <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom">
-        <i class="fab fa-tiktok"></i> TikTok
+        <i class="fab fa-tiktok"></i> Мой Тик Ток
     </a>
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom">
-        <i class="fas fa-gamepad"></i> Brawl Stars
+        <i class="fas fa-gamepad"></i> Друзья в БС
     </a>
     <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom">
-        <i class="fas fa-comment-dots"></i> Вопросы
+        <i class="fas fa-comment-dots"></i> Анонимные вопросы
     </a>
+
+    <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn">
+        <i class="fas fa-shield-alt"></i> Лучший VPN
+    </a>
+
+    <div class="visitor-counter">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Far1xy.github.io%2FInfo%2F&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false" alt="Views"/>
+    </div>
 </div>
 
 <script>
@@ -170,17 +211,13 @@
     function spawnParticle(x, y) {
         const p = document.createElement('div');
         p.className = 'particle';
-        // УВЕЛИЧЕННЫЙ РАЗМЕР
         const size = Math.random() * 12 + 6 + 'px'; 
         p.style.width = size; p.style.height = size;
-        
         const color = getComputedStyle(body).getPropertyValue('--main-color');
         p.style.background = color;
         p.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
-        
         p.style.left = (x - parseFloat(size)/2) + 'px'; 
         p.style.top = (y - parseFloat(size)/2) + 'px';
-        
         pContainer.appendChild(p);
         setTimeout(() => p.remove(), 1000);
     }
@@ -196,9 +233,7 @@
         spawnParticle(touch.clientX, touch.clientY);
     }, {passive: true});
 
-    if (localStorage.getItem('theme') === 'red') {
-        body.setAttribute('data-theme', 'red');
-    }
+    if (localStorage.getItem('theme') === 'red') { body.setAttribute('data-theme', 'red'); }
 
     btn.addEventListener('click', () => {
         if (body.hasAttribute('data-theme')) {
