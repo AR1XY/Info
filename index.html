@@ -71,6 +71,7 @@
 
     <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
     <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
     <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
@@ -100,7 +101,7 @@
 <div id="m-mines" class="modal">
     <div id="mines-board" class="mines-grid"></div>
     <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:250px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px; text-transform:uppercase;">ЗАКРЫТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ЗАКРЫТЬ</button>
 </div>
 
 <div id="m-admin" class="modal">
@@ -110,7 +111,7 @@
         <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
         <input type="text" id="adm-p-name" placeholder="Название промо">
         <input type="number" id="adm-p-sum" placeholder="Сумма">
-        <input type="number" id="adm-p-limit" placeholder="Лимит активаций">
+        <input type="number" id="adm-p-limit" placeholder="Лимит">
         <button class="btn-link c-outline" onclick="createPromo()">СОЗДАТЬ</button>
         <button onclick="closeModals()" style="background:none; border:none; color:#555; margin-top:10px;">ЗАКРЫТЬ</button>
     </div>
@@ -164,7 +165,7 @@
         let limit = parseInt(document.getElementById('adm-p-limit').value);
         if(!name || !sum || !limit) return alert("Заполни всё!");
         promos[name] = { sum: sum, limit: limit }; save();
-        alert(`Промо ${name} на ${sum}💸 создан!`);
+        alert(`Промо ${name} создан!`);
     }
 
     function activatePromo() {
@@ -173,7 +174,7 @@
             bal += promos[input].sum; promos[input].limit -= 1;
             if(promos[input].limit <= 0) delete promos[input];
             save(); alert("Активирован!"); document.getElementById('user-promo').value = '';
-        } else { alert("Ошибка промокода"); }
+        } else { alert("Ошибка промо"); }
     }
 
     function initMines() {
