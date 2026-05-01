@@ -19,42 +19,61 @@
         @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
 
         .container { max-width: 400px; width: 90%; text-align: center; z-index: 5; position: relative; padding: 20px 0; }
-        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px; }
+        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; cursor: pointer; user-select: none; }
 
         .btn-custom {
             background: var(--main-color); color: #fff !important; border: none; border-radius: 15px; padding: 15px; margin-bottom: 12px;
             width: 100%; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px;
             text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s; opacity: 0; transform: translateY(20px); animation: slideUp 0.5s ease-out forwards;
         }
-        .btn-game { background: #111 !important; border: 1px solid var(--main-color); color: var(--main-color) !important; }
-        .btn-vpn { background: var(--vpn-color) !important; }
-        
+        .btn-game { background: #111 !important; border: 1px solid var(--main-color); color: var(--main-color) !important; padding: 10px; font-size: 0.8rem; }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        canvas { border: 2px solid var(--main-color); background: #000; max-width: 90vw; max-height: 60vh; }
+        .game-modal, .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
         
-        .coin-container { position: relative; width: 180px; height: 180px; margin: 20px 0; }
-        #main-coin { width: 100%; height: 100%; background: var(--main-color); border-radius: 50%; box-shadow: 0 0 40px var(--glow); display: flex; align-items: center; justify-content: center; font-size: 50px; transition: 0.05s; user-select: none; }
-        #main-coin:active { transform: scale(0.9); }
+        /* ЧИТ МЕНЮ */
+        .admin-panel { background: #111; border: 2px solid #0f0; padding: 20px; border-radius: 20px; width: 80%; max-width: 300px; box-shadow: 0 0 20px rgba(0,255,0,0.3); }
+        .cheat-btn { width: 100%; padding: 10px; margin: 5px 0; border: none; border-radius: 10px; font-weight: bold; text-transform: uppercase; }
 
+        /* КЛИКЕР */
+        .coin-container { position: relative; width: 200px; height: 200px; margin: 30px 0; }
+        #main-coin { width: 100%; height: 100%; background: var(--main-color); border-radius: 50%; box-shadow: 0 0 40px var(--glow); display: flex; align-items: center; justify-content: center; font-size: 60px; transition: 0.2s; user-select: none; cursor: pointer; }
+        #main-coin.disabled { opacity: 0.3; filter: grayscale(1); transform: scale(0.95); }
+        .plus-one { position: absolute; color: #fff; font-weight: 900; font-size: 28px; pointer-events: none; animation: floatUp 0.8s ease-out forwards; text-shadow: 0 0 10px var(--main-color); z-index: 10005; }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-120px); } }
+
+        .slots-container { display: flex; gap: 10px; margin: 20px 0; }
+        .slot { width: 80px; height: 100px; background: #111; border: 2px solid var(--main-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
         .theme-switch { position: fixed; top: 20px; right: 20px; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--main-color); display: flex; align-items: center; justify-content: center; color: var(--main-color); background: rgba(255,255,255,0.1); z-index: 1000; }
-        
         @media (max-width: 768px) { #custom-cursor { display: none; } body { cursor: auto; overflow-y: auto; } }
     </style>
 </head>
 <body>
 
-<div id="clicker-modal" class="game-modal">
-    <div style="font-size: 30px; font-weight: 900;" id="clicker-score">0</div>
-    <div class="coin-container"><div id="main-coin">💎</div></div>
-    <button onclick="closeModals()" style="background:none; border:1px solid #fff; color:#fff; padding:10px 25px; border-radius:12px;">ЗАКРЫТЬ</button>
+<div id="admin-modal" class="admin-modal">
+    <div class="admin-panel">
+        <h3 style="color:#0f0; text-align:center;">HACK MENU</h3>
+        <button class="cheat-btn" style="background:#0f0; color:#000;" onclick="cheatClicks()">+10k CLICKS</button>
+        <button class="cheat-btn" style="background:#0f0; color:#000;" onclick="cheatSlots()">MAX BALANCE</button>
+        <button class="cheat-btn" style="background:#f00; color:#fff;" onclick="resetData()">RESET ALL</button>
+        <button onclick="closeModals()" style="width:100%; margin-top:10px; background:none; color:#fff; border:1px solid #fff; border-radius:10px;">EXIT</button>
+    </div>
 </div>
 
-<div id="snake-modal" class="game-modal">
-    <div style="font-size: 24px; font-weight: bold; color: var(--main-color); margin-bottom: 10px;">SCORE: <span id="snake-score">0</span></div>
-    <canvas id="snakeGame" width="400" height="400"></canvas>
-    <button onclick="closeModals()" style="margin-top:20px; background:none; border:1px solid #fff; color:#fff; padding:10px 25px; border-radius:12px;">ВЫЙТИ</button>
+<div id="clicker-modal" class="game-modal">
+    <div style="font-size: 40px; font-weight: 900; margin-bottom: 10px;" id="clicker-score">0</div>
+    <div class="coin-container"><div id="main-coin">💎</div></div>
+    <div id="click-status" style="color: #555;">КЛИКНИ!</div>
+    <button onclick="closeModals()" style="margin-top:20px; background:none; border:1px solid #fff; color:#fff; padding:10px 30px; border-radius:15px;">ЗАКРЫТЬ</button>
+</div>
+
+<div id="slots-modal" class="game-modal">
+    <div style="font-size: 20px; margin-bottom: 10px;">БАЛАНС: <span id="slots-balance">1000</span></div>
+    <div class="slots-container">
+        <div class="slot" id="s1">❓</div><div class="slot" id="s2">❓</div><div class="slot" id="s3">❓</div>
+    </div>
+    <button style="background:var(--main-color); border:none; color:white; padding:10px 40px; border-radius:10px; font-weight:bold; margin-bottom:20px;" onclick="spinSlots()">SPIN (50)</button>
+    <button onclick="closeModals()" style="background:none; border:1px solid #fff; color:#fff; padding:5px 20px; border-radius:12px;">ВЫЙТИ</button>
 </div>
 
 <div class="bg-glow-container"><div class="bg-glow bg-glow-1"></div><div class="bg-glow bg-glow-2"></div></div>
@@ -62,83 +81,87 @@
 <div class="theme-switch" id="theme-btn"><i class="fas fa-bolt"></i></div>
 
 <div class="container">
-    <h1>AR1XY INFO</h1>
+    <h1 id="admin-trigger">AR1XY INFO</h1>
     <div style="margin-bottom: 20px; color: #777; font-size: 0.9rem;"><span style="color:#0f0">●</span> Online</div>
     
-    <a href="https://t.me/odwob" class="btn-custom" style="animation-delay:0.1s"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-custom" style="animation-delay:0.2s"><i class="fas fa-users"></i> МОЙ ТГК</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom" style="animation-delay:0.3s"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" style="animation-delay:0.4s"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
-    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom" style="animation-delay:0.5s"><i class="fas fa-comment-dots"></i> АНОНИМНЫЕ ВОПРОСЫ</a>
+    <a href="https://t.me/odwob" class="btn-custom"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-custom"><i class="fas fa-users"></i> МОЙ ТГК</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
     
     <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-        <button onclick="openClicker()" class="btn-custom btn-game" style="animation-delay:0.6s; margin-bottom:0;">💎 КЛИКЕР</button>
-        <button onclick="openSnake()" class="btn-custom btn-game" style="animation-delay:0.6s; margin-bottom:0;">🐍 ЗМЕЙКА</button>
+        <button onclick="openClicker()" class="btn-custom btn-game">💎 КЛИКЕР</button>
+        <button onclick="openSlots()" class="btn-custom btn-game">🎰 СЛОТЫ</button>
     </div>
 
-    <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn" style="animation-delay:0.7s"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="https://t.me/bypassrtp" class="btn-custom" style="background:var(--vpn-color)!important;"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 </div>
 
 <script>
     const body = document.body;
+    let canClick = true;
 
+    // ЧИТЫ
+    let adminClicks = 0;
+    document.getElementById('admin-trigger').onclick = () => {
+        adminClicks++;
+        if(adminClicks >= 5) {
+            adminClicks = 0;
+            if(prompt("PASSWORD:") === "1234") {
+                document.getElementById('admin-modal').style.display = 'flex';
+            }
+        }
+    };
+
+    function cheatClicks() { clicks += 10000; updateScores(); alert("HACKED!"); }
+    function cheatSlots() { balance += 1000000; updateScores(); alert("HACKED!"); }
+    function resetData() { localStorage.clear(); location.reload(); }
+    function updateScores() {
+        localStorage.setItem('clicker_score', clicks);
+        localStorage.setItem('slot_balance', balance);
+        document.getElementById('clicker-score').innerText = clicks;
+        document.getElementById('slots-balance').innerText = balance;
+    }
+
+    // КЛИКЕР
     let clicks = parseInt(localStorage.getItem('clicker_score')) || 0;
     function openClicker() { 
         document.getElementById('clicker-modal').style.display = 'flex'; 
         document.getElementById('clicker-score').innerText = clicks;
     }
-    document.getElementById('main-coin').onpointerdown = (e) => {
-        clicks++; document.getElementById('clicker-score').innerText = clicks;
-        localStorage.setItem('clicker_score', clicks);
-    };
+    document.getElementById('main-coin').addEventListener('pointerdown', function(e) {
+        if(!canClick) return;
+        canClick = false;
+        clicks++;
+        updateScores();
+        this.classList.add('disabled');
+        document.getElementById('click-status').innerText = "ЖДИ...";
+        const plus = document.createElement('div');
+        plus.className = 'plus-one'; plus.innerText = '+1';
+        plus.style.left = e.clientX + 'px'; plus.style.top = e.clientY + 'px';
+        document.body.appendChild(plus);
+        setTimeout(() => plus.remove(), 800);
+        setTimeout(() => { canClick = true; this.classList.remove('disabled'); document.getElementById('click-status').innerText = "КЛИКНИ!"; }, 1000);
+    });
 
-    const canvas = document.getElementById("snakeGame");
-    const ctx = canvas.getContext("2d");
-    let box = 20, snake, food, d, snakeGameInterval;
-
-    function openSnake() {
-        document.getElementById('snake-modal').style.display = 'flex';
-        snake = [{x: 9 * box, y: 10 * box}];
-        food = {x: Math.floor(Math.random()*19+1)*box, y: Math.floor(Math.random()*19+1)*box};
-        d = ""; document.getElementById('snake-score').innerText = 0;
-        clearInterval(snakeGameInterval);
-        // Замедлили тут
-        snakeGameInterval = setInterval(drawSnake, 200); 
+    // СЛОТЫ
+    let balance = parseInt(localStorage.getItem('slot_balance')) || 1000;
+    function openSlots() { document.getElementById('slots-modal').style.display = 'flex'; document.getElementById('slots-balance').innerText = balance; }
+    function spinSlots() {
+        if(balance < 50) return alert("NO MONEY!");
+        balance -= 50; updateScores();
+        let s1 = document.getElementById('s1'), s2 = document.getElementById('s2'), s3 = document.getElementById('s3');
+        const icons = ['💎', '🍋', '🍒', '🔔', '7️⃣'];
+        let t = 0;
+        let int = setInterval(() => {
+            s1.innerText = icons[Math.floor(Math.random()*5)];
+            s2.innerText = icons[Math.floor(Math.random()*5)];
+            s3.innerText = icons[Math.floor(Math.random()*5)];
+            if(t++ > 15) { clearInterval(int); if(s1.innerText===s2.innerText && s2.innerText===s3.innerText) { balance += 500; updateScores(); alert("WIN!"); } }
+        }, 50);
     }
 
-    function closeModals() {
-        document.querySelectorAll('.game-modal').forEach(m => m.style.display = 'none');
-        clearInterval(snakeGameInterval);
-    }
-
-    function drawSnake() {
-        ctx.fillStyle = "black"; ctx.fillRect(0,0,400,400);
-        for(let i=0; i<snake.length; i++) {
-            ctx.fillStyle = (i==0) ? getComputedStyle(body).getPropertyValue('--main-color') : "#222";
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-        }
-        ctx.fillStyle = "#fff"; ctx.fillRect(food.x, food.y, box, box);
-        let headX = snake[0].x, headY = snake[0].y;
-        if(d=="LEFT") headX -= box; if(d=="UP") headY -= box;
-        if(d=="RIGHT") headX += box; if(d=="DOWN") headY += box;
-        if(headX == food.x && headY == food.y) {
-            food = {x: Math.floor(Math.random()*19+1)*box, y: Math.floor(Math.random()*19+1)*box};
-            document.getElementById('snake-score').innerText = snake.length;
-        } else { snake.pop(); }
-        let newHead = {x: headX, y: headY};
-        if(headX<0 || headX>=400 || headY<0 || headY>=400 || snake.some((s,i)=>i!==0 && s.x===headX && s.y===headY)) {
-            closeModals(); alert("ИГРА ОКОНЧЕНА!"); return;
-        }
-        snake.unshift(newHead);
-    }
-
-    canvas.onclick = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left, y = e.clientY - rect.top;
-        const head = snake[0];
-        if(Math.abs(x - head.x) > Math.abs(y - head.y)) d = x > head.x ? "RIGHT" : "LEFT";
-        else d = y > head.y ? "DOWN" : "UP";
-    };
+    function closeModals() { document.querySelectorAll('.game-modal, .admin-modal').forEach(m => m.style.display = 'none'); }
 
     document.addEventListener('mousemove', (e) => {
         const cur = document.getElementById('custom-cursor');
