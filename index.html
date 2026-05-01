@@ -9,14 +9,14 @@
     <style>
         :root {
             --main-color: #007bff;
-            --dark-btn: #004494; /* Темнее для VPN */
+            --vpn-color: #005fcc; /* Умеренно темный синий */
             --btn-text: #ffffff;
             --glow: rgba(0, 123, 255, 0.6);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
-            --dark-btn: #660000; /* Темно-красный для VPN */
+            --vpn-color: #b30000; /* Умеренно темный красный */
             --btn-text: #000000;
             --glow: rgba(255, 0, 0, 0.8);
         }
@@ -85,7 +85,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 25px;
-            color: #555;
+            color: #777;
         }
         .dot {
             width: 8px;
@@ -117,9 +117,8 @@
         }
 
         .btn-vpn {
-            background: var(--dark-btn) !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            margin-top: 10px;
+            background: var(--vpn-color) !important;
+            box-shadow: 0 0 12px var(--glow);
         }
 
         .btn-custom:hover {
@@ -127,7 +126,13 @@
             filter: brightness(1.2);
         }
 
-        .visitor-counter { margin-top: 20px; opacity: 0.4; font-size: 0.8rem; }
+        .visitor-counter {
+            margin-top: 25px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            display: inline-block;
+        }
 
         .theme-switch {
             position: fixed;
@@ -198,7 +203,7 @@
     </a>
 
     <div class="visitor-counter">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Far1xy.github.io%2FInfo%2F&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false" alt="Views"/>
+        <img src="https://counter.adfree.ch/count/incr/badge.svg?url=https%3A%2F%2Far1xy.github.io%2FInfo%2F&count_bg=%23007BFF&title_bg=%23444444&icon=googleanalytics.svg&icon_color=%23E7E7E7&title=Просмотры&edge_flat=false" alt="Views"/>
     </div>
 </div>
 
