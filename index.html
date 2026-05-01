@@ -6,49 +6,48 @@
     <title>AR1XY INFO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.3); }
-        [data-theme="red"] { --main: #ff3131; --glow: rgba(255, 49, 49, 0.3); }
-        [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.3); }
-        [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.3); }
+        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.4); }
+        [data-theme="red"] { --main: #ff3131; --glow: rgba(255, 49, 49, 0.4); }
+        [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.4); }
+        [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
 
         body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
-        .container { width: 100%; max-width: 400px; padding: 10px 15px; text-align: center; box-sizing: border-box; }
+        .container { width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; }
 
-        /* Маленькие точки тем в самом верху */
-        .theme-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 15px; padding-top: 5px; }
-        .t-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+        .theme-selector { display: flex; justify-content: center; gap: 18px; margin-bottom: 15px; padding-top: 10px; }
+        .t-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; }
 
-        h1 { font-size: 26px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
-        .status { color: #00ff41; font-size: 11px; margin-bottom: 20px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-size: 32px; font-weight: 900; color: var(--main); text-shadow: 0 0 20px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
+        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.8; }
 
-        /* Стиль кнопок */
+        /* Крупные кнопки */
         .btn-link {
-            width: 100%; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 14px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            text-decoration: none; color: #fff !important; margin-bottom: 10px; border: none;
+            width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            text-decoration: none; color: #fff !important; margin-bottom: 14px; border: none;
             box-sizing: border-box; transition: 0.2s; text-transform: uppercase;
         }
-        .btn-link:active { transform: scale(0.97); }
+        .btn-link:active { transform: scale(0.95); }
 
-        /* Расцветки */
-        .c-primary { background: var(--main); box-shadow: 0 4px 12px var(--glow); }
-        .c-outline { background: #0c0c0c; border: 1.5px solid var(--main); }
-        .c-dark { background: #000; border: 1.5px solid #333; }
+        .c-primary { background: var(--main); box-shadow: 0 5px 15px var(--glow); }
+        .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; }
+        .c-dark { background: #000; border: 2px solid #333; }
 
-        .balance-box { background: #080808; border-bottom: 1px solid #1a1a1a; padding: 15px; margin: 10px 0 20px; }
-        #bal-val { font-size: 24px; color: #ffca28; font-weight: 800; text-shadow: 0 0 10px rgba(255, 202, 40, 0.2); }
+        /* КЛИКЕР */
+        .clicker-container { position: relative; margin: 20px 0; }
+        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; position: relative; overflow: hidden; }
+        #btn-clicker:disabled { opacity: 0.6; filter: grayscale(1); cursor: not-allowed; }
+        
+        .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 24px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
+        @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-        /* Сетка игр */
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .btn-game { 
-            background: #0c0c0c; border: 1px solid var(--main); color: #fff; padding: 12px; border-radius: 12px; 
-            font-weight: 700; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;
-        }
+        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 20px; margin: 15px 0; border: 1px solid #1a1a1a; }
+        #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
 
-        /* Модальные окна */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
-        .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 5px; }
-        .cell { width: 55px; height: 55px; background: #0c0c0c; border: 1px solid var(--main); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -64,43 +63,39 @@
     <h1 id="adm-trigger">AR1XY INFO</h1>
     <div class="status">● Online</div>
 
-    <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> МОЙ ТГК</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline" style="border-color:#5d3fd3; color:#5d3fd3!important;"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
-    <a href="https://t.me/vopros_ar1xy_bot" class="btn-link c-outline"><i class="fas fa-question-circle"></i> АНОН ВОПРОСЫ</a>
-    <a href="https://t.me/bypassrtp" class="btn-link c-outline" style="border-color:#0049ad; color:#0049ad!important;"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
+    <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> ТИК ТОК</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="https://t.me/vopros_ar1xy_bot" class="btn-link c-outline"><i class="fas fa-question-circle"></i> ВОПРОСЫ</a>
+    <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
     <div class="balance-box">
-        <small style="opacity:0.5; font-size: 10px;">БАЛАНС</small><br>
         <span id="bal-val">0</span> 💸
     </div>
 
-    <button onclick="claimDaily()" class="btn-link c-outline" style="margin-bottom: 20px; font-size: 13px; opacity: 0.9;"><i class="fas fa-gift"></i> ЕЖЕДНЕВНЫЙ БОНУС</button>
+    <div class="clicker-container">
+        <button id="btn-clicker" onclick="doClick(event)" class="btn-link">КЛИКАТЬ (+1 💸)</button>
+    </div>
+
+    <button onclick="claimDaily()" class="btn-link c-outline" style="border-style: dotted; margin-bottom: 25px;"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
 
     <div class="game-grid">
-        <button onclick="initMines()" class="btn-game"><i class="fas fa-bomb"></i> МИНЫ</button>
-        <button onclick="startCrash()" class="btn-game"><i class="fas fa-chart-line"></i> КРАШ</button>
-        <button onclick="rollCase(100)" class="btn-game" style="border-style: dashed;">LITE CASE (100)</button>
-        <button onclick="rollCase(1000)" class="btn-game" style="border-style: dashed;">PRO CASE (1000)</button>
+        <button onclick="initMines()" class="btn-game">МИНЫ</button>
+        <button onclick="startCrash()" class="btn-game">КРАШ</button>
+        <button onclick="rollCase(100)" class="btn-game">LITE CASE</button>
+        <button onclick="rollCase(1000)" class="btn-game">PRO CASE</button>
     </div>
 </div>
 
-<div id="m-mines" class="modal">
-    <div id="mines-board" class="mines-grid"></div>
-    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:220px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px; text-transform:uppercase; font-size:12px;">ВЕРНУТЬСЯ</button>
-</div>
-
 <div id="m-win" class="modal">
-    <div id="win-text" style="font-size:36px; font-weight:900; letter-spacing: 2px;">???</div>
-    <button onclick="closeModals()" class="btn-link c-primary" style="width:140px; margin-top:25px;">OK</button>
+    <div id="win-text" style="font-size:48px; font-weight:900; color:var(--main);">0</div>
+    <button onclick="closeModals()" class="btn-link c-primary" style="width:200px; margin-top:30px;">OK</button>
 </div>
 
 <script>
     let bal = parseInt(localStorage.getItem('ar_bal')) || 500;
     let lastD = localStorage.getItem('ar_d') || 0;
-    let mPos = [], mActive = false, mWin = 0;
 
     function save() {
         localStorage.setItem('ar_bal', bal);
@@ -114,68 +109,66 @@
         localStorage.setItem('ar_theme', t);
     }
 
+    // ЛОГИКА КЛИКЕРА С ЗАДЕРЖКОЙ
+    function doClick(e) {
+        const btn = document.getElementById('btn-clicker');
+        bal++;
+        save();
+
+        // Анимация +1
+        const plus = document.createElement('div');
+        plus.className = 'plus-one';
+        plus.innerText = '+1';
+        plus.style.left = (e.clientX || e.target.offsetLeft + 50) + 'px';
+        plus.style.top = (e.clientY || e.target.offsetTop) + 'px';
+        document.body.appendChild(plus);
+        setTimeout(() => plus.remove(), 800);
+
+        // Задержка 1 сек
+        btn.disabled = true;
+        let timeLeft = 1;
+        const originalText = btn.innerText;
+        btn.innerText = `ЖДИ...`;
+        
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }, 1000);
+    }
+
+    function rollCase(cost) {
+        if(bal < cost) return alert("Мало монет");
+        bal -= cost; save();
+        openModal('m-win');
+        let i = 0, el = document.getElementById('win-text');
+        let t = setInterval(() => {
+            el.innerText = Math.floor(Math.random()*cost*10);
+            if(i++ > 12) {
+                clearInterval(t);
+                let win = cost === 100 ? [50, 150, 300, 500][Math.floor(Math.random()*4)] : [500, 2000, 5000, 10000][Math.floor(Math.random()*4)];
+                el.innerText = win + " 💸"; bal += win; save();
+            }
+        }, 60);
+    }
+
+    function claimDaily() {
+        if(Date.now() - lastD < 86400000) return alert("Жди 24 часа");
+        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸!");
+    }
+
+    // Админка
     let taps = 0;
     document.getElementById('adm-trigger').onclick = () => {
         taps++;
         if(taps >= 5) {
-            let p = prompt("PASSWORD");
-            if(p === "1234") { bal += 50000; save(); alert("ДОБАВЛЕНО 50,000 💸"); }
+            if(prompt("PASS") === "1234") { bal += 100000; save(); }
             taps = 0;
         }
     };
 
-    function rollCase(cost) {
-        if(bal < cost) return alert("Недостаточно монет");
-        bal -= cost; save();
-        openModal('m-win');
-        let i = 0, el = document.getElementById('win-text');
-        let timer = setInterval(() => {
-            el.innerText = Math.floor(Math.random()*cost*5) + "💸";
-            if(i++ > 10) {
-                clearInterval(timer);
-                let win = cost === 100 ? [50, 150, 200, 400][Math.floor(Math.random()*4)] : [500, 1500, 2000, 5000][Math.floor(Math.random()*4)];
-                el.innerText = win + " 💸"; bal += win; save();
-            }
-        }, 80);
-    }
-
-    function initMines() {
-        if(bal < 100) return alert("Ставка 100 💸");
-        bal -= 100; mWin = 0; mActive = true; mPos = [];
-        while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
-        openModal('m-mines');
-        let b = document.getElementById('mines-board'); b.innerHTML = '';
-        for(let i=0; i<25; i++) {
-            let c = document.createElement('div'); c.className = 'cell';
-            c.onclick = () => {
-                if(!mActive || c.innerText) return;
-                if(mPos.includes(i)) { c.innerText='💣'; c.style.background='rgba(255,0,0,0.2)'; mActive=false; alert("ВЗРЫВ!"); closeModals(); }
-                else { c.innerText='💎'; mWin += 60; document.getElementById('take-btn').style.display='block'; document.getElementById('take-btn').innerText=`ЗАБРАТЬ (${mWin+100})`; }
-            };
-            b.appendChild(c);
-        }
-        save();
-    }
-
-    function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
-
-    function startCrash() {
-        if(bal < 100) return alert("Ставка 100 💸");
-        bal -= 100;
-        let mult = (Math.random() * 3).toFixed(2);
-        if(mult < 1.1) alert("CRASH 0x");
-        else { let w = Math.floor(100*mult); bal += w; alert("ВЫИГРЫШ: " + w + " 💸 ("+mult+"x)"); }
-        save();
-    }
-
-    function claimDaily() {
-        if(Date.now() - lastD < 86400000) return alert("Уже получено! Жди 24ч.");
-        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸 получено!");
-    }
-
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
-
+    
     if(localStorage.getItem('ar_theme')) setTheme(localStorage.getItem('ar_theme'));
     save();
 </script>
