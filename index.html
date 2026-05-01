@@ -12,39 +12,49 @@
 
         body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; overflow: hidden; transition: 0.4s; cursor: none; touch-action: none; }
         #custom-cursor { width: 20px; height: 20px; background: var(--main-color); border-radius: 6px; position: fixed; pointer-events: none; z-index: 9999; box-shadow: 0 0 15px var(--main-color); transform: translate(-50%, -50%); }
+        
         .bg-glow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .bg-glow { position: absolute; width: 350px; height: 350px; background: var(--main-color); filter: blur(120px); border-radius: 50%; opacity: 0.2; animation: move 12s infinite alternate ease-in-out; }
         .bg-glow-1 { top: -50px; left: -50px; } .bg-glow-2 { bottom: -50px; right: -50px; animation-delay: -6s; }
         @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
 
-        .container { max-width: 400px; width: 90%; text-align: center; z-index: 5; position: relative; }
-        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; }
+        .container { max-width: 400px; width: 90%; text-align: center; z-index: 5; position: relative; padding: 20px 0; }
+        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px; }
 
         .btn-custom {
-            background: var(--main-color); color: #fff !important; border: none; border-radius: 15px; padding: 16px; margin-bottom: 15px;
+            background: var(--main-color); color: #fff !important; border: none; border-radius: 15px; padding: 15px; margin-bottom: 12px;
             width: 100%; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px;
             text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s; opacity: 0; transform: translateY(20px); animation: slideUp 0.5s ease-out forwards;
         }
+        .btn-game { background: #111 !important; border: 1px solid var(--main-color); color: var(--main-color) !important; }
+        .btn-vpn { background: var(--vpn-color) !important; }
+        
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* ИГРА */
-        #game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        canvas { border: 2px solid var(--main-color); box-shadow: 0 0 20px var(--glow); background: #000; max-width: 90vw; max-height: 70vh; }
-        .game-info { font-size: 20px; font-weight: bold; color: var(--main-color); margin-bottom: 10px; }
-        .game-controls { margin-top: 15px; color: #555; font-size: 0.8rem; }
+        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        canvas { border: 2px solid var(--main-color); background: #000; max-width: 90vw; max-height: 60vh; }
+        
+        .coin-container { position: relative; width: 180px; height: 180px; margin: 20px 0; }
+        #main-coin { width: 100%; height: 100%; background: var(--main-color); border-radius: 50%; box-shadow: 0 0 40px var(--glow); display: flex; align-items: center; justify-content: center; font-size: 50px; transition: 0.05s; user-select: none; }
+        #main-coin:active { transform: scale(0.9); }
 
         .theme-switch { position: fixed; top: 20px; right: 20px; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--main-color); display: flex; align-items: center; justify-content: center; color: var(--main-color); background: rgba(255,255,255,0.1); z-index: 1000; }
         
-        @media (max-width: 768px) { #custom-cursor { display: none; } body { cursor: auto; } }
+        @media (max-width: 768px) { #custom-cursor { display: none; } body { cursor: auto; overflow-y: auto; } }
     </style>
 </head>
 <body>
 
-<div id="game-modal">
-    <div class="game-info">SCORE: <span id="snake-score">0</span></div>
+<div id="clicker-modal" class="game-modal">
+    <div style="font-size: 30px; font-weight: 900;" id="clicker-score">0</div>
+    <div class="coin-container"><div id="main-coin">💎</div></div>
+    <button onclick="closeModals()" style="background:none; border:1px solid #fff; color:#fff; padding:10px 25px; border-radius:12px;">ЗАКРЫТЬ</button>
+</div>
+
+<div id="snake-modal" class="game-modal">
+    <div style="font-size: 24px; font-weight: bold; color: var(--main-color); margin-bottom: 10px;">SCORE: <span id="snake-score">0</span></div>
     <canvas id="snakeGame" width="400" height="400"></canvas>
-    <div class="game-controls">Тапай по сторонам экрана или используй стрелки</div>
-    <button onclick="stopSnake()" style="margin-top:20px; background:none; border:1px solid #fff; color:#fff; padding:10px 20px; border-radius:10px;">ВЫЙТИ</button>
+    <button onclick="closeModals()" style="margin-top:20px; background:none; border:1px solid #fff; color:#fff; padding:10px 25px; border-radius:12px;">ВЫЙТИ</button>
 </div>
 
 <div class="bg-glow-container"><div class="bg-glow bg-glow-1"></div><div class="bg-glow bg-glow-2"></div></div>
@@ -53,93 +63,90 @@
 
 <div class="container">
     <h1>AR1XY INFO</h1>
-    <div style="margin-bottom: 25px; color: #777; font-size: 0.9rem;"><span style="color:#0f0">●</span> Online</div>
+    <div style="margin-bottom: 20px; color: #777; font-size: 0.9rem;"><span style="color:#0f0">●</span> Online</div>
     
-    <a href="https://t.me/odwob" class="btn-custom" style="animation-delay:0.1s">МОЙ TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-custom" style="animation-delay:0.2s">МОЙ ТГК</a>
-    <button onclick="startSnake()" class="btn-custom" style="background:#111!important; border:1px solid var(--main-color); color:var(--main-color)!important; animation-delay:0.3s">
-        <i class="fas fa-snake"></i> НЕОНОВАЯ ЗМЕЙКА
-    </button>
-    <a href="https://t.me/bypassrtp" class="btn-custom" style="background:var(--vpn-color)!important; animation-delay:0.4s">ЛУЧШИЙ ВПН</a>
+    <a href="https://t.me/odwob" class="btn-custom" style="animation-delay:0.1s"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-custom" style="animation-delay:0.2s"><i class="fas fa-users"></i> МОЙ ТГК</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom" style="animation-delay:0.3s"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom" style="animation-delay:0.4s"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom" style="animation-delay:0.5s"><i class="fas fa-comment-dots"></i> АНОНИМНЫЕ ВОПРОСЫ</a>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+        <button onclick="openClicker()" class="btn-custom btn-game" style="animation-delay:0.6s; margin-bottom:0;">💎 КЛИКЕР</button>
+        <button onclick="openSnake()" class="btn-custom btn-game" style="animation-delay:0.6s; margin-bottom:0;">🐍 ЗМЕЙКА</button>
+    </div>
+
+    <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn" style="animation-delay:0.7s"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 </div>
 
 <script>
+    const body = document.body;
+
+    let clicks = parseInt(localStorage.getItem('clicker_score')) || 0;
+    function openClicker() { 
+        document.getElementById('clicker-modal').style.display = 'flex'; 
+        document.getElementById('clicker-score').innerText = clicks;
+    }
+    document.getElementById('main-coin').onpointerdown = (e) => {
+        clicks++; document.getElementById('clicker-score').innerText = clicks;
+        localStorage.setItem('clicker_score', clicks);
+    };
+
     const canvas = document.getElementById("snakeGame");
     const ctx = canvas.getContext("2d");
-    const scoreEl = document.getElementById("snake-score");
-    let box = 20; let score = 0; let snake = []; let food = {}; let d; let game;
+    let box = 20, snake, food, d, snakeGameInterval;
 
-    function startSnake() {
-        document.getElementById("game-modal").style.display = "flex";
-        score = 0; scoreEl.innerText = score;
-        snake = [{ x: 9 * box, y: 10 * box }];
-        food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
-        d = null;
-        if(game) clearInterval(game);
-        game = setInterval(draw, 100);
+    function openSnake() {
+        document.getElementById('snake-modal').style.display = 'flex';
+        snake = [{x: 9 * box, y: 10 * box}];
+        food = {x: Math.floor(Math.random()*19+1)*box, y: Math.floor(Math.random()*19+1)*box};
+        d = ""; document.getElementById('snake-score').innerText = 0;
+        clearInterval(snakeGameInterval);
+        // Замедлили тут
+        snakeGameInterval = setInterval(drawSnake, 200); 
     }
 
-    function stopSnake() { document.getElementById("game-modal").style.display = "none"; clearInterval(game); }
-
-    document.addEventListener("keydown", direction);
-    function direction(event) {
-        if(event.keyCode == 37 && d != "RIGHT") d = "LEFT";
-        else if(event.keyCode == 38 && d != "DOWN") d = "UP";
-        else if(event.keyCode == 39 && d != "LEFT") d = "RIGHT";
-        else if(event.keyCode == 40 && d != "UP") d = "DOWN";
+    function closeModals() {
+        document.querySelectorAll('.game-modal').forEach(m => m.style.display = 'none');
+        clearInterval(snakeGameInterval);
     }
 
-    // Управление тапами для телефона
-    canvas.addEventListener('touchstart', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const touchX = e.touches[0].clientX - rect.left;
-        const touchY = e.touches[0].clientY - rect.top;
-        const head = snake[0];
-        if (Math.abs(touchX - head.x) > Math.abs(touchY - head.y)) {
-            d = (touchX > head.x) ? (d != "LEFT" ? "RIGHT" : d) : (d != "RIGHT" ? "LEFT" : d);
-        } else {
-            d = (touchY > head.y) ? (d != "UP" ? "DOWN" : d) : (d != "DOWN" ? "UP" : d);
-        }
-    });
-
-    function draw() {
-        ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        for(let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = (i == 0) ? getComputedStyle(document.body).getPropertyValue('--main-color') : "#333";
-            ctx.shadowBlur = 15; ctx.shadowColor = ctx.fillStyle;
+    function drawSnake() {
+        ctx.fillStyle = "black"; ctx.fillRect(0,0,400,400);
+        for(let i=0; i<snake.length; i++) {
+            ctx.fillStyle = (i==0) ? getComputedStyle(body).getPropertyValue('--main-color') : "#222";
             ctx.fillRect(snake[i].x, snake[i].y, box, box);
-            ctx.shadowBlur = 0;
         }
-        ctx.fillStyle = "white"; ctx.fillRect(food.x, food.y, box, box);
-
-        let snakeX = snake[0].x; let snakeY = snake[0].y;
-        if( d == "LEFT") snakeX -= box; if( d == "UP") snakeY -= box;
-        if( d == "RIGHT") snakeX += box; if( d == "DOWN") snakeY += box;
-
-        if(snakeX == food.x && snakeY == food.y) {
-            score++; scoreEl.innerText = score;
-            food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
+        ctx.fillStyle = "#fff"; ctx.fillRect(food.x, food.y, box, box);
+        let headX = snake[0].x, headY = snake[0].y;
+        if(d=="LEFT") headX -= box; if(d=="UP") headY -= box;
+        if(d=="RIGHT") headX += box; if(d=="DOWN") headY += box;
+        if(headX == food.x && headY == food.y) {
+            food = {x: Math.floor(Math.random()*19+1)*box, y: Math.floor(Math.random()*19+1)*box};
+            document.getElementById('snake-score').innerText = snake.length;
         } else { snake.pop(); }
-
-        let newHead = { x: snakeX, y: snakeY };
-        if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
-            clearInterval(game); alert("GAME OVER! SCORE: " + score); stopSnake();
+        let newHead = {x: headX, y: headY};
+        if(headX<0 || headX>=400 || headY<0 || headY>=400 || snake.some((s,i)=>i!==0 && s.x===headX && s.y===headY)) {
+            closeModals(); alert("ИГРА ОКОНЧЕНА!"); return;
         }
         snake.unshift(newHead);
     }
 
-    function collision(head, array) {
-        for(let i = 0; i < array.length; i++) { if(head.x == array[i].x && head.y == array[i].y) return true; }
-        return false;
-    }
+    canvas.onclick = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const head = snake[0];
+        if(Math.abs(x - head.x) > Math.abs(y - head.y)) d = x > head.x ? "RIGHT" : "LEFT";
+        else d = y > head.y ? "DOWN" : "UP";
+    };
 
     document.addEventListener('mousemove', (e) => {
-        document.getElementById('custom-cursor').style.left = e.clientX + 'px';
-        document.getElementById('custom-cursor').style.top = e.clientY + 'px';
+        const cur = document.getElementById('custom-cursor');
+        if(cur) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; }
     });
 
     document.getElementById('theme-btn').onclick = () => {
-        document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'red');
+        body.hasAttribute('data-theme') ? body.removeAttribute('data-theme') : body.setAttribute('data-theme', 'red');
     };
 </script>
 </body>
