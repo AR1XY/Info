@@ -6,108 +6,95 @@
     <title>AR1XY INFO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ПАЛИТРА ТЕМ */
-        :root { --main: #007bff; --bg-btn: #0056b3; --glow: rgba(0, 123, 255, 0.5); }
-        [data-theme="red"] { --main: #ff0000; --bg-btn: #b30000; --glow: rgba(255, 0, 0, 0.5); }
-        [data-theme="gold"] { --main: #ffca28; --bg-btn: #c79a00; --glow: rgba(255, 202, 40, 0.5); }
-        [data-theme="hacker"] { --main: #00ff41; --bg-btn: #008f24; --glow: rgba(0, 255, 65, 0.5); }
+        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.3); }
+        [data-theme="red"] { --main: #ff3131; --glow: rgba(255, 49, 49, 0.3); }
+        [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.3); }
+        [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.3); }
 
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
-        .container { max-width: 420px; width: 95%; text-align: center; padding: 20px 0; }
-        
-        h1 { font-weight: 900; text-transform: uppercase; color: var(--main); text-shadow: 0 0 20px var(--glow); margin-bottom: 5px; cursor: pointer; }
-        .online-status { color: #00ff41; font-size: 14px; margin-bottom: 20px; display: block; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
+        .container { width: 100%; max-width: 400px; padding: 10px 15px; text-align: center; box-sizing: border-box; }
 
-        /* КНОПКИ В СТИЛЕ ФОТО */
-        .btn-main {
-            width: 100%; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 15px;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            text-decoration: none; color: #fff !important; margin-bottom: 12px; border: none;
-            transition: 0.3s; cursor: pointer; text-transform: uppercase;
+        /* Маленькие точки тем в самом верху */
+        .theme-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 15px; padding-top: 5px; }
+        .t-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+
+        h1 { font-size: 26px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        .status { color: #00ff41; font-size: 11px; margin-bottom: 20px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Стиль кнопок */
+        .btn-link {
+            width: 100%; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-decoration: none; color: #fff !important; margin-bottom: 10px; border: none;
+            box-sizing: border-box; transition: 0.2s; text-transform: uppercase;
         }
-        
-        /* РАЗНЫЕ ОТТЕНКИ ДЛЯ КНОПОК */
-        .c-1 { background: var(--main); box-shadow: 0 0 15px var(--glow); }
-        .c-2 { background: #1c1c1c; border: 1px solid var(--main); }
-        .c-3 { background: #000; border: 1px solid #fff; }
-        .c-4 { background: var(--bg-btn); box-shadow: 0 0 10px var(--glow); }
+        .btn-link:active { transform: scale(0.97); }
 
-        .balance-card { background: #0a0a0a; border: 1px solid var(--main); border-radius: 15px; padding: 15px; margin: 20px 0; box-shadow: 0 0 15px var(--glow); }
-        #global-bal { font-size: 2rem; color: #ffca28; }
+        /* Расцветки */
+        .c-primary { background: var(--main); box-shadow: 0 4px 12px var(--glow); }
+        .c-outline { background: #0c0c0c; border: 1.5px solid var(--main); }
+        .c-dark { background: #000; border: 1.5px solid #333; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .balance-box { background: #080808; border-bottom: 1px solid #1a1a1a; padding: 15px; margin: 10px 0 20px; }
+        #bal-val { font-size: 24px; color: #ffca28; font-weight: 800; text-shadow: 0 0 10px rgba(255, 202, 40, 0.2); }
+
+        /* Сетка игр */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .btn-game { 
-            background: #000; border: 1px solid var(--main); color: #fff; padding: 15px; border-radius: 12px; 
-            font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 8px;
+            background: #0c0c0c; border: 1px solid var(--main); color: #fff; padding: 12px; border-radius: 12px; 
+            font-weight: 700; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;
         }
 
-        .theme-menu { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .theme-dot { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; transition: 0.3s; }
-        .theme-dot:hover { transform: scale(1.2); }
-
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px; }
-        .cell { width: 50px; height: 50px; background: #111; border-radius: 8px; border: 1px solid var(--main); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        /* Модальные окна */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 5px; }
+        .cell { width: 55px; height: 55px; background: #0c0c0c; border: 1px solid var(--main); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="theme-menu">
-        <div class="theme-dot" style="background:#007bff" onclick="setTheme('default')"></div>
-        <div class="theme-dot" style="background:#ff0000" onclick="setTheme('red')"></div>
-        <div class="theme-dot" style="background:#ffca28" onclick="setTheme('gold')"></div>
-        <div class="theme-dot" style="background:#00ff41" onclick="setTheme('hacker')"></div>
+    <div class="theme-selector">
+        <div class="t-dot" style="background:#007bff" onclick="setTheme('default')"></div>
+        <div class="t-dot" style="background:#ff3131" onclick="setTheme('red')"></div>
+        <div class="t-dot" style="background:#ffca28" onclick="setTheme('gold')"></div>
+        <div class="t-dot" style="background:#00ff41" onclick="setTheme('hacker')"></div>
     </div>
 
-    <h1 id="adm-btn">AR1XY INFO</h1>
-    <span class="online-status">● Online</span>
+    <h1 id="adm-trigger">AR1XY INFO</h1>
+    <div class="status">● Online</div>
 
-    <a href="https://t.me/odwob" class="btn-main c-1"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-main c-2"><i class="fas fa-users"></i> МОЙ ТГК</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-main c-3"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-main c-4"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
-    <a href="https://t.me/vopros_ar1xy_bot" class="btn-main c-1"><i class="fas fa-comment-dots"></i> АНОН ВОПРОСЫ</a>
-    <a href="https://t.me/bypassrtp" class="btn-main c-2"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
+    <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> МОЙ ТГК</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline" style="border-color:#5d3fd3; color:#5d3fd3!important;"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="https://t.me/vopros_ar1xy_bot" class="btn-link c-outline"><i class="fas fa-question-circle"></i> АНОН ВОПРОСЫ</a>
+    <a href="https://t.me/bypassrtp" class="btn-link c-outline" style="border-color:#0049ad; color:#0049ad!important;"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
-    <div class="balance-card">
-        <small>БАЛАНС:</small><br>
-        <b id="global-bal">0</b> 💸
+    <div class="balance-box">
+        <small style="opacity:0.5; font-size: 10px;">БАЛАНС</small><br>
+        <span id="bal-val">0</span> 💸
     </div>
 
-    <button onclick="claimDaily()" class="btn-main" style="background:#ffca28; color:#000!important;"><i class="fas fa-star"></i> ЕЖЕДНЕВНЫЙ БОНУС</button>
+    <button onclick="claimDaily()" class="btn-link c-outline" style="margin-bottom: 20px; font-size: 13px; opacity: 0.9;"><i class="fas fa-gift"></i> ЕЖЕДНЕВНЫЙ БОНУС</button>
 
-    <h3 style="margin: 20px 0 10px;">МИНИ-ИГРЫ</h3>
-    <div class="grid">
+    <div class="game-grid">
         <button onclick="initMines()" class="btn-game"><i class="fas fa-bomb"></i> МИНЫ</button>
         <button onclick="startCrash()" class="btn-game"><i class="fas fa-chart-line"></i> КРАШ</button>
-    </div>
-
-    <h3 style="margin: 10px 0 10px;">МАГАЗИН КЕЙСОВ</h3>
-    <div class="grid">
-        <button onclick="rollCase(100)" class="btn-game">КЕЙС LITE<br><small>100 💸</small></button>
-        <button onclick="rollCase(1000)" class="btn-game">КЕЙС PRO<br><small>1,000 💸</small></button>
+        <button onclick="rollCase(100)" class="btn-game" style="border-style: dashed;">LITE CASE (100)</button>
+        <button onclick="rollCase(1000)" class="btn-game" style="border-style: dashed;">PRO CASE (1000)</button>
     </div>
 </div>
 
-<div id="m-case" class="game-modal">
-    <div id="case-res" style="font-size:50px; font-weight:900;">???</div>
-    <button onclick="closeModals()" class="btn-main c-1" style="width:200px; margin-top:30px;">ЗАКРЫТЬ</button>
+<div id="m-mines" class="modal">
+    <div id="mines-board" class="mines-grid"></div>
+    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:220px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px; text-transform:uppercase; font-size:12px;">ВЕРНУТЬСЯ</button>
 </div>
 
-<div id="m-mines" class="game-modal">
-    <div id="m-grid" class="mines-grid"></div>
-    <button id="m-take" onclick="takeMines()" class="btn-main" style="display:none; background:#00ff41; color:#000!important; width:200px;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
-</div>
-
-<div id="m-admin" class="game-modal">
-    <div style="background:#111; padding:20px; border-radius:20px; border:2px solid var(--main); width:80%;">
-        <h3>ADMIN PANEL</h3>
-        <button onclick="bal += 50000; save();" class="btn-main c-1">+50,000 💸</button>
-        <button onclick="bal = 0; save();" class="btn-main c-2">ОБНУЛИТЬ</button>
-        <button onclick="closeModals()" class="btn-main c-3">ЗАКРЫТЬ</button>
-    </div>
+<div id="m-win" class="modal">
+    <div id="win-text" style="font-size:36px; font-weight:900; letter-spacing: 2px;">???</div>
+    <button onclick="closeModals()" class="btn-link c-primary" style="width:140px; margin-top:25px;">OK</button>
 </div>
 
 <script>
@@ -118,83 +105,78 @@
     function save() {
         localStorage.setItem('ar_bal', bal);
         localStorage.setItem('ar_d', lastD);
-        document.getElementById('global-bal').innerText = bal.toLocaleString();
+        document.getElementById('bal-val').innerText = bal.toLocaleString();
     }
 
-    // ТЕМЫ
     function setTheme(t) {
         if(t === 'default') document.body.removeAttribute('data-theme');
         else document.body.setAttribute('data-theme', t);
-        localStorage.setItem('user_theme', t);
+        localStorage.setItem('ar_theme', t);
     }
 
-    // АДМИНКА (5 ТАПОВ ПО ТИТЛУ)
-    let aTaps = 0;
-    document.getElementById('adm-btn').onclick = () => {
-        aTaps++;
-        if(aTaps >= 5) {
-            if(prompt("PASS") === "1234") openModal('m-admin');
-            aTaps = 0;
+    let taps = 0;
+    document.getElementById('adm-trigger').onclick = () => {
+        taps++;
+        if(taps >= 5) {
+            let p = prompt("PASSWORD");
+            if(p === "1234") { bal += 50000; save(); alert("ДОБАВЛЕНО 50,000 💸"); }
+            taps = 0;
         }
     };
 
-    // КЕЙСЫ
-    function rollCase(price) {
-        if(bal < price) return alert("Мало монет!");
-        bal -= price; save();
-        openModal('m-case');
-        let el = document.getElementById('case-res');
-        let i = 0;
-        let roll = setInterval(() => {
-            el.innerText = Math.floor(Math.random()*price*5) + "💸";
-            if(i++ > 15) {
-                clearInterval(roll);
-                let win = price === 100 ? [50, 150, 300, 500][Math.floor(Math.random()*4)] : [500, 1500, 3000, 10000][Math.floor(Math.random()*4)];
-                el.innerText = win + " 💸";
-                bal += win; save();
+    function rollCase(cost) {
+        if(bal < cost) return alert("Недостаточно монет");
+        bal -= cost; save();
+        openModal('m-win');
+        let i = 0, el = document.getElementById('win-text');
+        let timer = setInterval(() => {
+            el.innerText = Math.floor(Math.random()*cost*5) + "💸";
+            if(i++ > 10) {
+                clearInterval(timer);
+                let win = cost === 100 ? [50, 150, 200, 400][Math.floor(Math.random()*4)] : [500, 1500, 2000, 5000][Math.floor(Math.random()*4)];
+                el.innerText = win + " 💸"; bal += win; save();
             }
-        }, 60);
+        }, 80);
     }
 
-    // МИНЫ
     function initMines() {
-        if(bal < 100) return alert("Ставка 100");
+        if(bal < 100) return alert("Ставка 100 💸");
         bal -= 100; mWin = 0; mActive = true; mPos = [];
         while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
         openModal('m-mines');
-        let g = document.getElementById('m-grid'); g.innerHTML = '';
+        let b = document.getElementById('mines-board'); b.innerHTML = '';
         for(let i=0; i<25; i++) {
             let c = document.createElement('div'); c.className = 'cell';
             c.onclick = () => {
                 if(!mActive || c.innerText) return;
-                if(mPos.includes(i)) { c.innerText='💣'; c.style.background='red'; mActive=false; alert("BOOM!"); setTimeout(closeModals, 800); }
-                else { c.innerText='💎'; mWin += 80; document.getElementById('m-take').style.display='block'; document.getElementById('m-take').innerText=`ЗАБРАТЬ (${mWin+100})`; }
+                if(mPos.includes(i)) { c.innerText='💣'; c.style.background='rgba(255,0,0,0.2)'; mActive=false; alert("ВЗРЫВ!"); closeModals(); }
+                else { c.innerText='💎'; mWin += 60; document.getElementById('take-btn').style.display='block'; document.getElementById('take-btn').innerText=`ЗАБРАТЬ (${mWin+100})`; }
             };
-            g.appendChild(c);
+            b.appendChild(c);
         }
         save();
     }
+
     function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
 
-    // КРАШ
     function startCrash() {
-        if(bal < 100) return alert("Ставка 100");
+        if(bal < 100) return alert("Ставка 100 💸");
         bal -= 100;
-        let m = (Math.random() * 3.5).toFixed(2);
-        if(m < 1.1) alert("CRASH 0x");
-        else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w + " (" + m + "x)"); }
+        let mult = (Math.random() * 3).toFixed(2);
+        if(mult < 1.1) alert("CRASH 0x");
+        else { let w = Math.floor(100*mult); bal += w; alert("ВЫИГРЫШ: " + w + " 💸 ("+mult+"x)"); }
         save();
     }
 
     function claimDaily() {
-        if(Date.now() - lastD < 86400000) return alert("Жди 24ч");
-        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸");
+        if(Date.now() - lastD < 86400000) return alert("Уже получено! Жди 24ч.");
+        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸 получено!");
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModals() { document.querySelectorAll('.game-modal').forEach(m => m.style.display='none'); }
+    function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
 
-    if(localStorage.getItem('user_theme')) setTheme(localStorage.getItem('user_theme'));
+    if(localStorage.getItem('ar_theme')) setTheme(localStorage.getItem('ar_theme'));
     save();
 </script>
 </body>
