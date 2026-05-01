@@ -28,13 +28,12 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Важно для частиц */
+            overflow: hidden;
             transition: 0.4s;
             cursor: none;
-            touch-action: none; /* Предотвращает стандартные жесты браузера для работы искр */
+            touch-action: none;
         }
 
-        /* Тот самый закругленный курсор */
         #custom-cursor {
             width: 20px;
             height: 20px;
@@ -117,12 +116,14 @@
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
-            opacity: 0.8;
-            animation: move-up 0.8s linear forwards;
+            opacity: 0.9;
+            filter: blur(1px); /* Эффект мягкого свечения */
+            animation: move-up 1s ease-out forwards;
         }
 
         @keyframes move-up {
-            to { transform: translateY(-40px) scale(0); opacity: 0; }
+            0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
+            100% { transform: translate(0, -60px) scale(0); opacity: 0; }
         }
 
         @media (max-width: 768px) {
@@ -166,34 +167,35 @@
     const btn = document.getElementById('theme-btn');
     const pContainer = document.getElementById('particle-container');
 
-    // Функция создания искр
     function spawnParticle(x, y) {
         const p = document.createElement('div');
         p.className = 'particle';
-        const size = Math.random() * 6 + 2 + 'px';
+        // УВЕЛИЧЕННЫЙ РАЗМЕР
+        const size = Math.random() * 12 + 6 + 'px'; 
         p.style.width = size; p.style.height = size;
+        
         const color = getComputedStyle(body).getPropertyValue('--main-color');
         p.style.background = color;
-        p.style.boxShadow = `0 0 8px ${color}`;
-        p.style.left = x + 'px'; p.style.top = y + 'px';
+        p.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
+        
+        p.style.left = (x - parseFloat(size)/2) + 'px'; 
+        p.style.top = (y - parseFloat(size)/2) + 'px';
+        
         pContainer.appendChild(p);
-        setTimeout(() => p.remove(), 800);
+        setTimeout(() => p.remove(), 1000);
     }
 
-    // Движение мышки
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
         spawnParticle(e.clientX, e.clientY);
     });
 
-    // Движение пальца (Touch)
     document.addEventListener('touchmove', (e) => {
         const touch = e.touches[0];
         spawnParticle(touch.clientX, touch.clientY);
     }, {passive: true});
 
-    // Смена темы
     if (localStorage.getItem('theme') === 'red') {
         body.setAttribute('data-theme', 'red');
     }
