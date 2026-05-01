@@ -34,29 +34,37 @@
             transition: 0.4s;
             cursor: none;
             touch-action: none;
+            position: relative;
         }
 
-        /* Живой фон */
-        .bg-glow {
+        /* ИСПРАВЛЕННЫЙ ЖИВОЙ ФОН */
+        .bg-glow-container {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: var(--main-color);
-            filter: blur(120px);
-            border-radius: 50%;
-            opacity: 0.2;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
             pointer-events: none;
-            animation: move 15s infinite alternate;
         }
-        .bg-glow-2 {
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -7s;
+
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--main-color);
+            filter: blur(100px);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: move 10s infinite alternate ease-in-out;
         }
+
+        .bg-glow-1 { top: 10%; left: 10%; }
+        .bg-glow-2 { bottom: 10%; right: 10%; animation-delay: -5s; }
+
         @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 20%); }
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
         }
 
         #custom-cursor {
@@ -85,7 +93,6 @@
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         .btn-custom {
-            background: rgba(255, 255, 255, 0.05); /* Эффект стекла */
             background-color: var(--main-color);
             color: var(--btn-text) !important;
             border: none; border-radius: 15px; padding: 16px; margin-bottom: 15px;
@@ -101,6 +108,7 @@
         .btn-vpn { background: var(--vpn-color) !important; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
         .btn-custom:hover { transform: scale(1.05) translateY(-2px) !important; filter: brightness(1.2); }
 
+        /* Каскадное появление */
         .btn-custom:nth-child(3) { animation-delay: 0.2s; }
         .btn-custom:nth-child(4) { animation-delay: 0.3s; }
         .btn-custom:nth-child(5) { animation-delay: 0.4s; }
@@ -133,8 +141,11 @@
 </head>
 <body>
 
-<div class="bg-glow"></div>
-<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow-container">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+</div>
+
 <div id="custom-cursor"></div>
 <div id="particle-container"></div>
 <div class="theme-switch" id="theme-btn"><i class="fas fa-bolt"></i></div>
@@ -203,3 +214,4 @@
 </script>
 </body>
 </html>
+д
