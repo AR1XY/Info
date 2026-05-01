@@ -20,7 +20,6 @@
         h1 { font-size: 32px; font-weight: 900; color: var(--main); text-shadow: 0 0 20px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
         .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.8; }
 
-        /* Крупные кнопки */
         .btn-link {
             width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -33,21 +32,28 @@
         .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; }
         .c-dark { background: #000; border: 2px solid #333; }
 
-        /* КЛИКЕР */
+        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 20px; margin: 15px 0; border: 1px solid #1a1a1a; }
+        #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
+
         .clicker-container { position: relative; margin: 20px 0; }
-        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; position: relative; overflow: hidden; }
-        #btn-clicker:disabled { opacity: 0.6; filter: grayscale(1); cursor: not-allowed; }
+        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; }
+        #btn-clicker:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 24px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 20px; margin: 15px 0; border: 1px solid #1a1a1a; }
-        #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
+        .promo-box { display: flex; gap: 10px; margin-bottom: 20px; }
+        .promo-box input { flex: 1; background: #111; border: 1px solid var(--main); border-radius: 12px; color: #fff; padding: 10px; outline: none; }
+        .promo-box button { background: var(--main); border: none; border-radius: 12px; color: #fff; padding: 0 20px; font-weight: bold; }
 
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer; }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 6px; }
+        .cell { width: 55px; height: 55px; background: #111; border: 1px solid var(--main); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 20px; width: 100%; max-width: 340px; }
+        .admin-card input { width: 100%; margin: 10px 0; padding: 10px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; box-sizing: border-box;}
     </style>
 </head>
 <body>
@@ -65,9 +71,7 @@
 
     <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
     <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> ТИК ТОК</a>
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
-    <a href="https://t.me/vopros_ar1xy_bot" class="btn-link c-outline"><i class="fas fa-question-circle"></i> ВОПРОСЫ</a>
     <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
     <div class="balance-box">
@@ -78,13 +82,37 @@
         <button id="btn-clicker" onclick="doClick(event)" class="btn-link">КЛИКАТЬ (+1 💸)</button>
     </div>
 
-    <button onclick="claimDaily()" class="btn-link c-outline" style="border-style: dotted; margin-bottom: 25px;"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
+    <div class="promo-box">
+        <input type="text" id="user-promo" placeholder="Промокод...">
+        <button onclick="activatePromo()">OK</button>
+    </div>
+
+    <button onclick="claimDaily()" class="btn-link c-outline" style="border-style: dotted; margin-bottom: 20px;"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
 
     <div class="game-grid">
         <button onclick="initMines()" class="btn-game">МИНЫ</button>
         <button onclick="startCrash()" class="btn-game">КРАШ</button>
         <button onclick="rollCase(100)" class="btn-game">LITE CASE</button>
         <button onclick="rollCase(1000)" class="btn-game">PRO CASE</button>
+    </div>
+</div>
+
+<div id="m-mines" class="modal">
+    <div id="mines-board" class="mines-grid"></div>
+    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:250px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px; text-transform:uppercase;">ЗАКРЫТЬ</button>
+</div>
+
+<div id="m-admin" class="modal">
+    <div class="admin-card">
+        <h2 style="color:var(--main); margin-top:0;">ADMIN MENU</h2>
+        <button class="btn-link c-primary" onclick="bal+=10000; save();">ВЫДАТЬ 10К 💸</button>
+        <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
+        <input type="text" id="adm-p-name" placeholder="Название промо">
+        <input type="number" id="adm-p-sum" placeholder="Сумма">
+        <input type="number" id="adm-p-limit" placeholder="Лимит активаций">
+        <button class="btn-link c-outline" onclick="createPromo()">СОЗДАТЬ</button>
+        <button onclick="closeModals()" style="background:none; border:none; color:#555; margin-top:10px;">ЗАКРЫТЬ</button>
     </div>
 </div>
 
@@ -96,10 +124,13 @@
 <script>
     let bal = parseInt(localStorage.getItem('ar_bal')) || 500;
     let lastD = localStorage.getItem('ar_d') || 0;
+    let promos = JSON.parse(localStorage.getItem('ar_promos')) || {};
+    let mPos = [], mActive = false, mWin = 0;
 
     function save() {
         localStorage.setItem('ar_bal', bal);
         localStorage.setItem('ar_d', lastD);
+        localStorage.setItem('ar_promos', JSON.stringify(promos));
         document.getElementById('bal-val').innerText = bal.toLocaleString();
     }
 
@@ -109,62 +140,89 @@
         localStorage.setItem('ar_theme', t);
     }
 
-    // ЛОГИКА КЛИКЕРА С ЗАДЕРЖКОЙ
     function doClick(e) {
         const btn = document.getElementById('btn-clicker');
-        bal++;
-        save();
-
-        // Анимация +1
+        bal++; save();
         const plus = document.createElement('div');
-        plus.className = 'plus-one';
-        plus.innerText = '+1';
+        plus.className = 'plus-one'; plus.innerText = '+1';
         plus.style.left = (e.clientX || e.target.offsetLeft + 50) + 'px';
         plus.style.top = (e.clientY || e.target.offsetTop) + 'px';
         document.body.appendChild(plus);
         setTimeout(() => plus.remove(), 800);
-
-        // Задержка 1 сек
         btn.disabled = true;
-        let timeLeft = 1;
-        const originalText = btn.innerText;
-        btn.innerText = `ЖДИ...`;
-        
-        setTimeout(() => {
-            btn.disabled = false;
-            btn.innerText = originalText;
-        }, 1000);
+        setTimeout(() => { btn.disabled = false; }, 1000);
+    }
+
+    let taps = 0;
+    document.getElementById('adm-trigger').onclick = () => {
+        taps++; if(taps >= 5) { if(prompt("PASS") === "1234") openModal('m-admin'); taps = 0; }
+    };
+
+    function createPromo() {
+        let name = document.getElementById('adm-p-name').value.toUpperCase().trim();
+        let sum = parseInt(document.getElementById('adm-p-sum').value);
+        let limit = parseInt(document.getElementById('adm-p-limit').value);
+        if(!name || !sum || !limit) return alert("Заполни всё!");
+        promos[name] = { sum: sum, limit: limit }; save();
+        alert(`Промо ${name} на ${sum}💸 создан!`);
+    }
+
+    function activatePromo() {
+        let input = document.getElementById('user-promo').value.toUpperCase().trim();
+        if(promos[input] && promos[input].limit > 0) {
+            bal += promos[input].sum; promos[input].limit -= 1;
+            if(promos[input].limit <= 0) delete promos[input];
+            save(); alert("Активирован!"); document.getElementById('user-promo').value = '';
+        } else { alert("Ошибка промокода"); }
+    }
+
+    function initMines() {
+        if(bal < 100) return alert("Ставка 100 💸");
+        bal -= 100; mWin = 0; mActive = true; mPos = [];
+        while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
+        openModal('m-mines');
+        let b = document.getElementById('mines-board'); b.innerHTML = '';
+        for(let i=0; i<25; i++) {
+            let c = document.createElement('div'); c.className = 'cell';
+            c.onclick = () => {
+                if(!mActive || c.innerText) return;
+                if(mPos.includes(i)) { c.innerText='💣'; c.style.background='red'; mActive=false; alert("BOOM!"); closeModals(); }
+                else { c.innerText='💎'; mWin += 60; document.getElementById('take-btn').style.display='block'; document.getElementById('take-btn').innerText=`ЗАБРАТЬ (${mWin+100})`; }
+            };
+            b.appendChild(c);
+        }
+        save();
+    }
+
+    function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
+
+    function startCrash() {
+        if(bal < 100) return alert("Ставка 100 💸");
+        bal -= 100;
+        let mult = (Math.random() * 3).toFixed(2);
+        if(mult < 1.1) alert("CRASH 0x");
+        else { let w = Math.floor(100*mult); bal += w; alert("ВЫИГРЫШ: " + w + " ("+mult+"x)"); }
+        save();
     }
 
     function rollCase(cost) {
         if(bal < cost) return alert("Мало монет");
-        bal -= cost; save();
-        openModal('m-win');
+        bal -= cost; save(); openModal('m-win');
         let i = 0, el = document.getElementById('win-text');
         let t = setInterval(() => {
             el.innerText = Math.floor(Math.random()*cost*10);
-            if(i++ > 12) {
+            if(i++ > 10) {
                 clearInterval(t);
-                let win = cost === 100 ? [50, 150, 300, 500][Math.floor(Math.random()*4)] : [500, 2000, 5000, 10000][Math.floor(Math.random()*4)];
+                let win = cost === 100 ? [50, 250, 500][Math.floor(Math.random()*3)] : [500, 3000, 10000][Math.floor(Math.random()*3)];
                 el.innerText = win + " 💸"; bal += win; save();
             }
-        }, 60);
+        }, 70);
     }
 
     function claimDaily() {
-        if(Date.now() - lastD < 86400000) return alert("Жди 24 часа");
+        if(Date.now() - lastD < 86400000) return alert("Жди 24ч");
         bal += 1000; lastD = Date.now(); save(); alert("+1000 💸!");
     }
-
-    // Админка
-    let taps = 0;
-    document.getElementById('adm-trigger').onclick = () => {
-        taps++;
-        if(taps >= 5) {
-            if(prompt("PASS") === "1234") { bal += 100000; save(); }
-            taps = 0;
-        }
-    };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
