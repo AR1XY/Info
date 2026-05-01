@@ -9,14 +9,14 @@
     <style>
         :root {
             --main-color: #007bff;
-            --vpn-color: #005fcc; /* Умеренно темный синий */
+            --vpn-color: #0056b3; /* Чуть темнее синего */
             --btn-text: #ffffff;
             --glow: rgba(0, 123, 255, 0.6);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
-            --vpn-color: #b30000; /* Умеренно темный красный */
+            --vpn-color: #990000; /* Чуть темнее красного */
             --btn-text: #000000;
             --glow: rgba(255, 0, 0, 0.8);
         }
@@ -37,135 +37,54 @@
         }
 
         #custom-cursor {
-            width: 20px;
-            height: 20px;
-            background-color: var(--main-color);
-            border-radius: 6px;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 15px var(--main-color);
-            transition: transform 0.1s ease-out;
+            width: 20px; height: 20px; background-color: var(--main-color);
+            border-radius: 6px; position: fixed; pointer-events: none;
+            z-index: 9999; box-shadow: 0 0 15px var(--main-color);
             transform: translate(-50%, -50%);
         }
 
-        #particle-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+        #particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-        .container {
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            padding: 30px;
-            z-index: 1;
-            position: relative;
-        }
+        .container { max-width: 400px; width: 90%; text-align: center; z-index: 1; position: relative; }
 
-        h1 {
-            font-weight: 900;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            color: var(--main-color);
-            text-shadow: 0 0 20px var(--glow);
-            letter-spacing: 3px;
-        }
+        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px; }
 
-        .status-online {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: #777;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #00ff00;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00ff00;
-            animation: blink 1.5s infinite;
-        }
+        .status-online { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; margin-bottom: 25px; color: #777; }
+        .dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         .btn-custom {
-            background: var(--main-color);
-            color: var(--btn-text) !important;
-            border: none;
-            border-radius: 15px;
-            padding: 16px;
-            margin-bottom: 15px;
-            width: 100%;
-            font-weight: 800;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            text-decoration: none;
-            box-shadow: 0 0 15px var(--glow);
-            transition: 0.3s;
+            background: var(--main-color); color: var(--btn-text) !important;
+            border: none; border-radius: 15px; padding: 16px; margin-bottom: 15px;
+            width: 100%; font-weight: 800; text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s;
         }
 
-        .btn-vpn {
+        .btn-vpn { 
             background: var(--vpn-color) !important;
-            box-shadow: 0 0 12px var(--glow);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Более мягкая тень */
         }
 
-        .btn-custom:hover {
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-
-        .visitor-counter {
-            margin-top: 25px;
-            padding: 10px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            display: inline-block;
+        .counter-text {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--main-color);
+            opacity: 0.6;
         }
 
         .theme-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--main-color);
-            z-index: 1000;
-            color: var(--main-color);
-            box-shadow: 0 0 10px var(--glow);
+            position: fixed; top: 20px; right: 20px; cursor: pointer;
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--main-color);
+            display: flex; align-items: center; justify-content: center; color: var(--main-color);
+            background: rgba(255,255,255,0.1); z-index: 1000;
         }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.9;
-            filter: blur(1px);
-            animation: move-up 1s ease-out forwards;
-        }
-
-        @keyframes move-up {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
-            100% { transform: translate(0, -60px) scale(0); opacity: 0; }
-        }
-
+        .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: move-up 1s ease-out forwards; }
+        @keyframes move-up { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: translateY(-60px) scale(0); opacity: 0; } }
+        
         @media (max-width: 768px) { #custom-cursor { display: none; } body { cursor: auto; } }
     </style>
 </head>
@@ -173,56 +92,40 @@
 
 <div id="custom-cursor"></div>
 <div id="particle-container"></div>
-
-<div class="theme-switch" id="theme-btn">
-    <i class="fas fa-bolt"></i>
-</div>
+<div class="theme-switch" id="theme-btn"><i class="fas fa-bolt"></i></div>
 
 <div class="container">
-    <h1>AR1XY info</h1>
+    <h1>AR1XY INFO</h1>
     <div class="status-online"><div class="dot"></div> Online</div>
     
-    <a href="https://t.me/odwob" class="btn-custom">
-        <i class="fab fa-telegram"></i> Мой Telegram
-    </a>
-    <a href="https://t.me/Lqphu" class="btn-custom">
-        <i class="fas fa-users"></i> Мой ТГК
-    </a>
-    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom">
-        <i class="fab fa-tiktok"></i> Мой Тик Ток
-    </a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom">
-        <i class="fas fa-gamepad"></i> Друзья в БС
-    </a>
-    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom">
-        <i class="fas fa-comment-dots"></i> Анонимные вопросы
-    </a>
+    <a href="https://t.me/odwob" class="btn-custom"><i class="fab fa-telegram"></i> МОЙ TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-custom"><i class="fas fa-users"></i> МОЙ ТГК</a>
+    <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom"><i class="fas fa-comment-dots"></i> АНОНИМНЫЕ ВОПРОСЫ</a>
+    
+    <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
-    <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn">
-        <i class="fas fa-shield-alt"></i> лучший впн
-    </a>
-
-    <div class="visitor-counter">
-        <img src="https://counter.adfree.ch/count/incr/badge.svg?url=https%3A%2F%2Far1xy.github.io%2FInfo%2F&count_bg=%23007BFF&title_bg=%23444444&icon=googleanalytics.svg&icon_color=%23E7E7E7&title=Просмотры&edge_flat=false" alt="Views"/>
+    <div class="counter-text">
+        Views: <span id="count">...</span>
     </div>
 </div>
 
 <script>
-    const cursor = document.getElementById('custom-cursor');
     const body = document.body;
     const btn = document.getElementById('theme-btn');
     const pContainer = document.getElementById('particle-container');
+    const cursor = document.getElementById('custom-cursor');
 
-    function spawnParticle(x, y) {
+    function spawn(x, y) {
         const p = document.createElement('div');
         p.className = 'particle';
-        const size = Math.random() * 12 + 6 + 'px'; 
+        const size = Math.random() * 10 + 6 + 'px';
         p.style.width = size; p.style.height = size;
         const color = getComputedStyle(body).getPropertyValue('--main-color');
         p.style.background = color;
-        p.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
-        p.style.left = (x - parseFloat(size)/2) + 'px'; 
-        p.style.top = (y - parseFloat(size)/2) + 'px';
+        p.style.boxShadow = `0 0 15px ${color}`;
+        p.style.left = x + 'px'; p.style.top = y + 'px';
         pContainer.appendChild(p);
         setTimeout(() => p.remove(), 1000);
     }
@@ -230,15 +133,20 @@
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
-        spawnParticle(e.clientX, e.clientY);
+        spawn(e.clientX, e.clientY);
     });
 
     document.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        spawnParticle(touch.clientX, touch.clientY);
+        spawn(e.touches[0].clientX, e.touches[0].clientY);
     }, {passive: true});
 
-    if (localStorage.getItem('theme') === 'red') { body.setAttribute('data-theme', 'red'); }
+    // Простой локальный имитатор счетчика (пока нет серверного API)
+    let views = localStorage.getItem('site_views') || 142;
+    views++;
+    localStorage.setItem('site_views', views);
+    document.getElementById('count').innerText = views;
+
+    if (localStorage.getItem('theme') === 'red') body.setAttribute('data-theme', 'red');
 
     btn.addEventListener('click', () => {
         if (body.hasAttribute('data-theme')) {
@@ -250,6 +158,5 @@
         }
     });
 </script>
-
 </body>
 </html>
