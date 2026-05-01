@@ -9,14 +9,14 @@
     <style>
         :root {
             --main-color: #007bff;
-            --vpn-color: #0056b3; /* Чуть темнее синего */
+            --vpn-color: #0049ad;
             --btn-text: #ffffff;
             --glow: rgba(0, 123, 255, 0.6);
         }
 
         [data-theme="red"] {
             --main-color: #ff0000;
-            --vpn-color: #990000; /* Чуть темнее красного */
+            --vpn-color: #8a0000;
             --btn-text: #000000;
             --glow: rgba(255, 0, 0, 0.8);
         }
@@ -47,32 +47,63 @@
 
         .container { max-width: 400px; width: 90%; text-align: center; z-index: 1; position: relative; }
 
-        h1 { font-weight: 900; text-transform: uppercase; color: var(--main-color); text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px; }
+        /* Анимация заголовка */
+        h1 { 
+            font-weight: 900; text-transform: uppercase; color: var(--main-color); 
+            text-shadow: 0 0 20px var(--glow); letter-spacing: 3px; margin-bottom: 5px;
+            animation: fadeInDown 0.8s ease-out;
+        }
 
-        .status-online { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; margin-bottom: 25px; color: #777; }
+        .status-online { 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            font-size: 0.9rem; margin-bottom: 25px; color: #777;
+            animation: fadeIn 1.2s ease-out;
+        }
+
         .dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
+        /* Базовый стиль кнопок с анимацией появления */
         .btn-custom {
             background: var(--main-color); color: var(--btn-text) !important;
             border: none; border-radius: 15px; padding: 16px; margin-bottom: 15px;
             width: 100%; font-weight: 800; text-transform: uppercase;
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            text-decoration: none; box-shadow: 0 0 15px var(--glow); transition: 0.3s;
+            text-decoration: none; box-shadow: 0 0 15px var(--glow); 
+            transition: 0.3s;
+            opacity: 0; /* Изначально скрыты для анимации */
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-out forwards;
         }
 
-        .btn-vpn { 
-            background: var(--vpn-color) !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Более мягкая тень */
-        }
+        .btn-vpn { background: var(--vpn-color) !important; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+
+        .btn-custom:hover { transform: scale(1.05) translateY(-2px) !important; filter: brightness(1.2); }
+
+        /* Задержки для каждой кнопки (каскад) */
+        .btn-custom:nth-child(3) { animation-delay: 0.2s; }
+        .btn-custom:nth-child(4) { animation-delay: 0.3s; }
+        .btn-custom:nth-child(5) { animation-delay: 0.4s; }
+        .btn-custom:nth-child(6) { animation-delay: 0.5s; }
+        .btn-custom:nth-child(7) { animation-delay: 0.6s; }
+        .btn-custom:nth-child(8) { animation-delay: 0.7s; }
 
         .counter-text {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--main-color);
-            opacity: 0.6;
+            margin-top: 20px; font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--main-color); opacity: 0;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+        }
+
+        /* Ключевые кадры анимаций */
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            to { opacity: 0.6; }
         }
 
         .theme-switch {
@@ -103,7 +134,6 @@
     <a href="https://www.tiktok.com/@ar1xy.ru?_r=1&_t=ZS-960PFfGz9JU" class="btn-custom"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-custom"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
     <a href="http://t.me/voprosy?start=mdhq02f" class="btn-custom"><i class="fas fa-comment-dots"></i> АНОНИМНЫЕ ВОПРОСЫ</a>
-    
     <a href="https://t.me/bypassrtp" class="btn-custom btn-vpn"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
     <div class="counter-text">
@@ -140,7 +170,7 @@
         spawn(e.touches[0].clientX, e.touches[0].clientY);
     }, {passive: true});
 
-    // Простой локальный имитатор счетчика (пока нет серверного API)
+    // Счетчик
     let views = localStorage.getItem('site_views') || 142;
     views++;
     localStorage.setItem('site_views', views);
