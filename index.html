@@ -6,131 +6,150 @@
     <title>AR1XY INFO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
-        [data-theme="blue"] { --main: #007bff; --glow: rgba(0, 123, 255, 0.4); }
+        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.4); } /* Тема синяя как на скринах */
         [data-theme="red"] { --main: #ff3131; --glow: rgba(255, 49, 49, 0.4); }
         [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.4); }
+        [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
 
         body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
         .container { width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; }
 
-        /* Анимация появления при загрузке */
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .theme-selector, h1, .status, .btn-link, .balance-box, .clicker-container, .promo-box, .btn-bonus, .btn-game {
-            animation: fadeInScale 0.5s ease forwards; opacity: 0;
-        }
-
-        h1 { animation-delay: 0.1s; font-size: 32px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 5px 0 0; cursor: pointer; text-transform: uppercase; }
-        .status { color: #00ff41; font-size: 13px; margin-bottom: 20px; opacity: 0.9; }
-
+        /* Выбор тем - 4 точки сверху */
         .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 10px; }
-        .t-dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
+        .t-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; }
 
+        h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
+        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; }
+
+        /* Кнопки ссылок */
         .btn-link {
-            width: 100%; padding: 18px; border-radius: 18px; font-weight: 800; font-size: 16px;
+            width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            text-decoration: none; color: #fff !important; margin-bottom: 14px; border: 2px solid var(--main);
+            text-decoration: none; color: #fff !important; margin-bottom: 14px; border: none;
             box-sizing: border-box; transition: 0.2s; text-transform: uppercase;
         }
-        .btn-link.fill { background: var(--main); box-shadow: 0 0 15px var(--glow); border: none; color: #000 !important; }
-        .btn-link.dark { background: #0c0c0c; border: 2px solid #222; }
         .btn-link:active { transform: scale(0.95); }
 
-        .balance-box { background: #0c0c0c; border-radius: 20px; padding: 25px; margin: 15px 0; border: 1px solid #1a1a1a; }
-        #bal-val { font-size: 30px; color: #ffca28; font-weight: 800; }
+        .c-primary { background: var(--main); box-shadow: 0 5px 15px var(--glow); } /* Первая кнопка TELEGRAM */
+        .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; } /* Остальные кнопки */
+        .c-dark { background: #000; border: 2px solid #333; } /* Для Тик Ток, если нужен */
 
-        #btn-clicker { background: linear-gradient(180deg, #1a1a1a, #000); border: 2px solid var(--main); height: 80px; cursor: pointer; width: 100%; border-radius: 18px; color: #fff; font-weight: 800; text-transform: uppercase; }
-        #btn-clicker:disabled { opacity: 0.5; }
+        /* Баланс */
+        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 22px; margin: 15px 0; border: 1px solid #1a1a1a; position: relative;}
+        #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
+
+        /* Кликер */
+        .clicker-container { position: relative; margin: 20px 0; }
+        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px;}
+        #btn-clicker:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* Анимация +1 и частиц ТОЛЬКО для кликера */
         .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 26px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-        .money-p { position: absolute; font-size: 20px; pointer-events: none; animation: pFly 1s forwards; z-index: 5; }
-        @keyframes pFly { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; } }
-
+        /* Промокод */
         .promo-box { display: flex; gap: 10px; margin-bottom: 20px; }
-        .promo-box input { flex: 1; background: #0c0c0c; border: 2px solid var(--main); border-radius: 14px; color: #fff; padding: 14px; outline: none; }
-        .promo-box button { background: var(--main); border: none; border-radius: 14px; color: #000; padding: 0 25px; font-weight: 900; cursor: pointer; }
+        .promo-box input { flex: 1; background: #111; border: 1px solid var(--main); border-radius: 12px; color: #fff; padding: 12px; outline: none; font-size: 15px; }
+        .promo-box button { background: var(--main); border: none; border-radius: 12px; color: #fff; padding: 0 20px; font-weight: bold; cursor: pointer; }
 
-        .btn-bonus { background: none; border: 2px dashed var(--main); border-radius: 18px; padding: 16px; color: var(--main); width: 100%; font-weight: 800; margin-bottom: 20px; cursor: pointer; text-transform: uppercase; }
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        /* Игры - сетка */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 13px;}
+        .btn-game:active { transform: scale(0.97); }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 25px; width: 100%; max-width: 350px; text-align: center; }
-        .admin-card input { width: 100%; margin-bottom: 12px; padding: 14px; background: #000; border: 1px solid #333; color: #fff; border-radius: 12px; box-sizing: border-box; }
+        /* Бонус */
+        .btn-daily { background: none; border: 2px dashed var(--main); border-radius: 16px; padding: 15px; color: var(--main); width: 100%; font-weight: 700; margin-bottom: 20px; cursor: pointer; }
+
+        /* Модальные окна (Мины, Админка, Открытие кейсов) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
         
-        /* Исправленная кнопка создать промо */
-        .btn-admin-action { background: #000; border: 2px solid var(--main); color: #fff; width: 100%; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        /* Исправленная админка - ТЕПЕРЬ ПО ЦЕНТРУ */
+        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 30px; width: 90%; max-width: 340px; text-align: center; margin: 20px auto; box-sizing: border-box; }
+        .admin-card h2 { color: var(--main); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
+        .admin-card input { width: 100%; margin-bottom: 12px; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 10px; box-sizing: border-box; outline: none; }
+        .admin-card hr { border: 0; border-top: 1px solid #222; margin: 15px 0; }
+        
+        /* Сетка мин */
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 6px; }
+        .cell { width: 55px; height: 55px; background: #0a0a0a; border: 1px solid var(--main); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
+        
+        /* Модалка открытия кейса */
+        .case-opening-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 40px 20px; width: 90%; max-width: 360px; text-align: center; box-sizing: border-box; }
+        .case-opening-card h2 { color: var(--main); margin-top: 0; text-transform: uppercase; font-size: 20px; }
+        .winning-number { font-size: 50px; font-weight: 900; color: #ffca28; margin: 20px 0; letter-spacing: 2px; }
+        .money-sign { font-size: 30px; color: #fff; margin-left: 5px; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="theme-selector">
-        <div class="t-dot" style="background:#007bff" onclick="setTheme('blue')"></div>
+        <div class="t-dot" style="background:#007bff" onclick="setTheme('default')"></div>
         <div class="t-dot" style="background:#ff3131" onclick="setTheme('red')"></div>
         <div class="t-dot" style="background:#ffca28" onclick="setTheme('gold')"></div>
-        <div class="t-dot" style="background:#00ff41" onclick="setTheme('')"></div>
+        <div class="t-dot" style="background:#00ff41" onclick="setTheme('hacker')"></div>
     </div>
 
     <h1 id="adm-trigger">AR1XY INFO</h1>
     <div class="status">● Online</div>
 
-    <a href="https://t.me/odwob" class="btn-link fill"><i class="fab fa-telegram"></i> TELEGRAM</a>
-    <a href="https://t.me/Lqphu" class="btn-link"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
-    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
-    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
-    <a href="https://t.me/bypassrtp" class="btn-link"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
+    <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
+    <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
+    <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
+    <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
     <div class="balance-box">
         <span id="bal-val">0</span> 💸
     </div>
 
-    <div class="clicker-container" id="c-area">
-        <button id="btn-clicker" onclick="doClick(event)">КЛИКАТЬ (+1 💸)</button>
+    <div class="clicker-container">
+        <button id="btn-clicker" onclick="doClick(event)" class="btn-link">КЛИКАТЬ (+1 💸)</button>
     </div>
 
     <div class="promo-box">
-        <input type="text" id="u-promo" placeholder="Промокод...">
+        <input type="text" id="user-promo" placeholder="Промокод...">
         <button onclick="activatePromo()">OK</button>
     </div>
 
-    <button onclick="claimDaily()" class="btn-bonus"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
+    <button onclick="claimDaily()" class="btn-daily"><i class="fas fa-gift"></i> БОНУС 24Ч</button>
 
     <div class="game-grid">
         <button onclick="initMines()" class="btn-game">МИНЫ</button>
         <button onclick="startCrash()" class="btn-game">КРАШ</button>
-        <button onclick="rollCase(100)" class="btn-game">LITE CASE</button>
-        <button onclick="rollCase(1000)" class="btn-game">PRO CASE</button>
-    </div>
-</div>
-
-<div id="m-admin" class="modal">
-    <div class="admin-card">
-        <h2 style="color:var(--main); margin:0 0 20px;">ADMIN PANEL</h2>
-        <button class="btn-link fill" style="width:100%" onclick="bal+=10000; save();">ВЫДАТЬ 10,000 💸</button>
-        <div style="margin: 20px 0; height: 1px; background: #333;"></div>
-        <input type="text" id="adm-n" placeholder="Код (GIFT)">
-        <input type="number" id="adm-s" placeholder="Сумма">
-        <input type="number" id="adm-l" placeholder="Лимит">
-        <button class="btn-admin-action" onclick="createPromo()">СОЗДАТЬ ПРОМО</button>
-        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer; font-weight:bold;">ЗАКРЫТЬ</button>
+        <button onclick="initCaseOpening(100)" class="btn-game">LITE CASE</button>
+        <button onclick="initCaseOpening(1000)" class="btn-game">PRO CASE</button>
     </div>
 </div>
 
 <div id="m-mines" class="modal">
     <div id="mines-board" class="mines-grid"></div>
-    <button id="take-btn" onclick="takeMines()" class="btn-link fill" style="width:220px; margin-top:20px; display:none;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#666; background:none; border:none; margin-top:20px; font-weight:bold;">ВЫЙТИ</button>
+    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:250px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
+</div>
+
+<div id="m-admin" class="modal">
+    <div class="admin-card">
+        <h2>Админ Панель</h2>
+        <button class="btn-link c-primary" style="padding:15px; width:100%; box-sizing:border-box;" onclick="bal+=10000; save(); alert('+10К 💸');">Выдать себе 10К 💸</button>
+        <hr>
+        <input type="text" id="adm-p-name" placeholder="Название (напр. GIFT)">
+        <input type="number" id="adm-p-sum" placeholder="Сумма (💸)">
+        <input type="number" id="adm-p-limit" placeholder="Лимит активаций">
+        <button class="btn-link c-outline" style="padding:15px; width:100%; box-sizing:border-box;" onclick="createPromo()">Создать Промокод</button>
+        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;">ЗАКРЫТЬ</button>
+    </div>
+</div>
+
+<div id="m-case-opening" class="modal">
+    <div class="case-opening-card">
+        <h2 id="opening-case-title">ОТКРЫТИЕ КЕЙСА...</h2>
+        <div class="winning-number"><span id="opening-val">0</span><span class="money-sign">💸</span></div>
+        <button id="case-close-btn" onclick="closeModals()" class="btn-link c-primary" style="display:none; width:200px; margin:0 auto; padding:15px;">ОК</button>
+    </div>
 </div>
 
 <script>
+    // Основные переменные и сохранение
     let bal = parseInt(localStorage.getItem('ar_bal')) || 0;
     let lastD = localStorage.getItem('ar_d') || 0;
     let promos = JSON.parse(localStorage.getItem('ar_promos')) || {};
@@ -143,60 +162,50 @@
         document.getElementById('bal-val').innerText = bal.toLocaleString();
     }
 
+    // Темы (точки)
     function setTheme(t) {
-        if(!t) document.body.removeAttribute('data-theme');
+        if(t === 'default') document.body.removeAttribute('data-theme');
         else document.body.setAttribute('data-theme', t);
         localStorage.setItem('ar_theme', t);
     }
 
-    // Частицы ТОЛЬКО для кликера
-    function clickPart(e) {
-        for(let i=0; i<6; i++) {
-            const p = document.createElement('div');
-            p.className = 'money-p'; p.innerText = '💸';
-            p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
-            p.style.setProperty('--x', (Math.random()*200-100)+'px');
-            p.style.setProperty('--y', (Math.random()*200-100)+'px');
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 1000);
-        }
-    }
-
+    // Кликер (+1)
     function doClick(e) {
         const btn = document.getElementById('btn-clicker');
         bal++; save();
-        clickPart(e); // Запуск частиц
         const p = document.createElement('div');
         p.className = 'plus-one'; p.innerText = '+1';
-        p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
+        p.style.left = (e.clientX || e.target.offsetLeft + 50) + 'px'; p.style.top = (e.clientY || e.target.offsetTop) + 'px';
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 800);
-        btn.disabled = true; setTimeout(() => btn.disabled = false, 1000);
+        btn.disabled = true; setTimeout(() => btn.disabled = false, 1000); // 1 сек задержка
     }
 
+    // Админка (Вход 5 тапов по заголовку)
     let taps = 0;
     document.getElementById('adm-trigger').onclick = () => {
         taps++; if(taps >= 5) { if(prompt("ПАРОЛЬ")==="1234") openModal('m-admin'); taps=0; }
     };
 
     function createPromo() {
-        let n = document.getElementById('adm-n').value.toUpperCase().trim();
-        let s = parseInt(document.getElementById('adm-s').value);
-        let l = parseInt(document.getElementById('adm-l').value);
+        let n = document.getElementById('adm-p-name').value.toUpperCase().trim();
+        let s = parseInt(document.getElementById('adm-p-sum').value);
+        let l = parseInt(document.getElementById('adm-p-limit').value);
         if(n && s && l) { promos[n] = {s, l}; save(); alert("Промокод создан!"); }
     }
 
     function activatePromo() {
-        let v = document.getElementById('u-promo').value.toUpperCase().trim();
+        let v = document.getElementById('user-promo').value.toUpperCase().trim();
         if(promos[v] && promos[v].l > 0) {
             bal += promos[v].s; promos[v].l--; 
             if(promos[v].l <= 0) delete promos[v];
-            save(); alert("Успешно!"); document.getElementById('u-promo').value='';
-        } else alert("Ошибка!");
+            save(); alert("Успешно!"); document.getElementById('user-promo').value='';
+        } else alert("Неверный код или лимит вышел");
     }
 
+    // ИСПРАВЛЕННЫЕ ИГРЫ - ПРОВЕРКА СТАВКИ 100💸
     function initMines() {
-        if(bal < 100) return alert("Мало 💸");
+        if(bal < 100) return alert("Ставка 100 💸"); // Жесткая проверка
         bal -= 100; mWin = 0; mActive = true; mPos = [];
         while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
         openModal('m-mines');
@@ -216,30 +225,49 @@
     function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
 
     function startCrash() {
-        if(bal < 100) return alert("Мало 💸");
-        bal -= 100; let m = (Math.random()*3.5).toFixed(2);
-        if(m < 1.1) alert("КРАШ!");
-        else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w); }
+        if(bal < 100) return alert("Ставка 100 💸"); // Жесткая проверка
+        bal -= 100; let m = (Math.random()*3).toFixed(2);
+        if(m < 1.1) alert("CRASH! 0.00x");
+        else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w + "💸 ("+m+"x)"); }
         save();
     }
 
-    function rollCase(cost) {
-        if(bal < cost) return alert("Мало 💸");
+    // НОВАЯ АНИМАЦИЯ КЕЙСОВ (КРУТИЛКА БАЛАНСА)
+    function initCaseOpening(cost) {
+        if(bal < cost) return alert("Мало монет");
         bal -= cost; save();
-        let target = bal + (cost === 100 ? [50, 200, 400][Math.floor(Math.random()*3)] : [500, 3000, 7000][Math.floor(Math.random()*3)]);
-        let current = bal;
+
+        // Сбрасываем модалку
+        document.getElementById('case-close-btn').style.display = 'none';
+        document.getElementById('opening-val').innerText = '0';
+        document.getElementById('opening-case-title').innerText = cost === 100 ? 'ОТКРЫТИЕ LITE CASE' : 'ОТКРЫТИЕ PRO CASE';
+        openModal('m-case-opening');
+
+        // Определяем выигрыш
+        let win = cost === 100 ? [50, 150, 300][Math.floor(Math.random()*3)] : [500, 2000, 5000][Math.floor(Math.random()*3)];
+        
+        // Логика анимации (счетчик)
+        let i = 0;
+        let el = document.getElementById('opening-val');
         let timer = setInterval(() => {
-            current += Math.floor((target - current) / 5) + 1;
-            document.getElementById('bal-val').innerText = current.toLocaleString();
-            if(current >= target) { clearInterval(timer); bal = target; save(); }
-        }, 50);
+            // Быстро меняем цифры от 0 до выигрыша
+            el.innerText = Math.floor(Math.random() * win);
+            if(i++ > 20) { // Длительность анимации
+                clearInterval(timer);
+                el.innerText = win; // Ставим финальное число
+                bal += win; save();
+                document.getElementById('case-close-btn').style.display = 'block'; // Показываем ОК
+            }
+        }, 50); // Скорость смены цифр
     }
 
+    // Бонус 24ч
     function claimDaily() {
         if(Date.now() - lastD < 86400000) return alert("Жди 24ч");
-        bal += 1000; lastD = Date.now(); save(); alert("+1000!");
+        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸!");
     }
 
+    // Модалки
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
     if(localStorage.getItem('ar_theme')) setTheme(localStorage.getItem('ar_theme'));
