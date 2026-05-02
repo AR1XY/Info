@@ -11,24 +11,24 @@
         [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.4); }
         [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
 
-        /* АНИМАЦИЯ ПОЯВЛЕНИЯ */
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(30px); }
+            0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
         body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
+        
         .container { 
             width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; 
-            display: flex; flex-direction: column; align-items: center; 
-            animation: fadeInUp 0.8s ease-out forwards; /* Применяем ко всему контенту */
+            display: flex; flex-direction: column; align-items: center;
+            animation: fadeInUp 0.6s ease-out forwards;
         }
 
         .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 10px; width: 100%; }
         .t-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; }
 
-        h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; width: 100%; }
-        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; width: 100%; }
+        h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
+        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; }
 
         .btn-link {
             width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
@@ -47,7 +47,6 @@
 
         .clicker-container { width: 100%; margin-bottom: 14px; }
         #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px; width: 100%; font-weight: 800; text-transform: uppercase; }
-        #btn-clicker:disabled { opacity: 0.5; }
         
         .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 26px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
@@ -57,7 +56,7 @@
         .promo-box button { background: var(--main); border: none; border-radius: 12px; color: #fff; padding: 0 20px; font-weight: bold; cursor: pointer; }
 
         .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; width: 100%; }
-        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; width: 100%; box-sizing: border-box; }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; box-sizing: border-box; width: 100%; }
 
         .btn-daily { background: none; border: 2px dashed var(--main); border-radius: 16px; padding: 15px; color: var(--main); width: 100%; font-weight: 700; margin-bottom: 20px; cursor: pointer; box-sizing: border-box; }
 
@@ -117,11 +116,11 @@
 <div id="m-admin" class="modal">
     <div class="admin-card">
         <h2>Админ Панель</h2>
-        <button class="btn-link c-primary" onclick="bal+=10000; save(); alert('+10К 💸');">Выдать себе 10К 💸</button>
+        <button class="btn-link c-primary" style="width:100%;" onclick="bal+=10000; save(); alert('+10К 💸');">Выдать себе 10К 💸</button>
         <input type="text" id="adm-p-name" placeholder="Название">
         <input type="number" id="adm-p-sum" placeholder="Сумма">
         <input type="number" id="adm-p-limit" placeholder="Лимит">
-        <button class="btn-link c-outline" style="border-color:var(--main); color:var(--main)!important; background:#000;" onclick="createPromo()">СОЗДАТЬ ПРОМО</button>
+        <button class="btn-link c-outline" style="width:100%; border-color:var(--main); color:var(--main)!important; background:#000;" onclick="createPromo()">СОЗДАТЬ ПРОМО</button>
         <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;">ЗАКРЫТЬ</button>
     </div>
 </div>
