@@ -11,14 +11,24 @@
         [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.4); }
         [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
 
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
-        .container { width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; }
+        /* АНИМАЦИЯ ПОЯВЛЕНИЯ */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-        .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 10px; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
+        .container { 
+            width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; 
+            display: flex; flex-direction: column; align-items: center; 
+            animation: fadeInUp 0.8s ease-out forwards; /* Применяем ко всему контенту */
+        }
+
+        .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 10px; width: 100%; }
         .t-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; }
 
-        h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
-        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; }
+        h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; width: 100%; }
+        .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; width: 100%; }
 
         .btn-link {
             width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
@@ -32,32 +42,33 @@
         .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; }
         .c-dark { background: #000; border: 2px solid #222; color: #fff !important; }
 
-        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 22px; margin: 15px 0; border: 1px solid #1a1a1a; }
+        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 22px; margin: 15px 0; border: 1px solid #1a1a1a; width: 100%; box-sizing: border-box; }
         #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
 
-        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px; width: 100%; }
+        .clicker-container { width: 100%; margin-bottom: 14px; }
+        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px; width: 100%; font-weight: 800; text-transform: uppercase; }
         #btn-clicker:disabled { opacity: 0.5; }
         
         .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 26px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-        .promo-box { display: flex; gap: 10px; margin-bottom: 20px; }
+        .promo-box { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
         .promo-box input { flex: 1; background: #111; border: 1px solid var(--main); border-radius: 12px; color: #fff; padding: 12px; outline: none; }
         .promo-box button { background: var(--main); border: none; border-radius: 12px; color: #fff; padding: 0 20px; font-weight: bold; cursor: pointer; }
 
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; width: 100%; }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; width: 100%; box-sizing: border-box; }
 
-        .btn-daily { background: none; border: 2px dashed var(--main); border-radius: 16px; padding: 15px; color: var(--main); width: 100%; font-weight: 700; margin-bottom: 20px; cursor: pointer; }
+        .btn-daily { background: none; border: 2px dashed var(--main); border-radius: 16px; padding: 15px; color: var(--main); width: 100%; font-weight: 700; margin-bottom: 20px; cursor: pointer; box-sizing: border-box; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 30px; width: 90%; max-width: 340px; text-align: center; margin: 20px auto; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 30px; width: 100%; max-width: 340px; text-align: center; box-sizing: border-box; }
         .admin-card input { width: 100%; margin-bottom: 12px; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 10px; box-sizing: border-box; }
         
         .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 6px; }
         .cell { width: 55px; height: 55px; background: #0a0a0a; border: 1px solid var(--main); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
         
-        .case-opening-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 40px 20px; width: 90%; max-width: 360px; text-align: center; }
+        .case-opening-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 40px 20px; width: 100%; max-width: 360px; text-align: center; box-sizing: border-box; }
         .winning-number { font-size: 50px; font-weight: 900; color: #ffca28; margin: 20px 0; }
     </style>
 </head>
@@ -76,9 +87,7 @@
 
     <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
     <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
-    
     <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
-    
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
     <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
@@ -113,7 +122,7 @@
         <input type="number" id="adm-p-sum" placeholder="Сумма">
         <input type="number" id="adm-p-limit" placeholder="Лимит">
         <button class="btn-link c-outline" style="border-color:var(--main); color:var(--main)!important; background:#000;" onclick="createPromo()">СОЗДАТЬ ПРОМО</button>
-        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px;">ЗАКРЫТЬ</button>
+        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;">ЗАКРЫТЬ</button>
     </div>
 </div>
 
@@ -127,7 +136,7 @@
 
 <div id="m-mines" class="modal">
     <div id="mines-board" class="mines-grid"></div>
-    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="display:none; margin-top:20px;">ЗАБРАТЬ</button>
+    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="display:none; margin-top:20px; width:200px;">ЗАБРАТЬ</button>
     <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
 </div>
 
@@ -155,7 +164,8 @@
         bal++; save();
         const p = document.createElement('div');
         p.className = 'plus-one'; p.innerText = '+1';
-        p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
+        p.style.left = (e.clientX || window.innerWidth/2) + 'px'; 
+        p.style.top = (e.clientY || window.innerHeight/2) + 'px';
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 800);
         btn.disabled = true; setTimeout(() => btn.disabled = false, 1000);
