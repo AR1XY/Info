@@ -6,7 +6,7 @@
     <title>AR1XY INFO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.4); } /* Тема синяя как на скринах */
+        :root { --main: #007bff; --glow: rgba(0, 123, 255, 0.4); }
         [data-theme="red"] { --main: #ff3131; --glow: rgba(255, 49, 49, 0.4); }
         [data-theme="gold"] { --main: #ffca28; --glow: rgba(255, 202, 40, 0.4); }
         [data-theme="hacker"] { --main: #00ff41; --glow: rgba(0, 255, 65, 0.4); }
@@ -14,14 +14,12 @@
         body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
         .container { width: 100%; max-width: 420px; padding: 15px; text-align: center; box-sizing: border-box; }
 
-        /* Выбор тем - 4 точки сверху */
         .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 10px; }
         .t-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; }
 
         h1 { font-size: 30px; font-weight: 900; color: var(--main); text-shadow: 0 0 15px var(--glow); margin: 0; cursor: pointer; text-transform: uppercase; }
         .status { color: #00ff41; font-size: 13px; margin-bottom: 25px; opacity: 0.9; }
 
-        /* Кнопки ссылок */
         .btn-link {
             width: 100%; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 16px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -30,54 +28,37 @@
         }
         .btn-link:active { transform: scale(0.95); }
 
-        .c-primary { background: var(--main); box-shadow: 0 5px 15px var(--glow); } /* Первая кнопка TELEGRAM */
-        .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; } /* Остальные кнопки */
-        .c-dark { background: #000; border: 2px solid #333; } /* Для Тик Ток, если нужен */
+        .c-primary { background: var(--main); box-shadow: 0 5px 15px var(--glow); }
+        .c-outline { background: #0c0c0c; border: 2px solid var(--main); color: var(--main) !important; }
+        .c-dark { background: #000; border: 2px solid #222; color: #fff !important; }
 
-        /* Баланс */
-        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 22px; margin: 15px 0; border: 1px solid #1a1a1a; position: relative;}
+        .balance-box { background: #0a0a0a; border-radius: 20px; padding: 22px; margin: 15px 0; border: 1px solid #1a1a1a; }
         #bal-val { font-size: 30px; color: #ffca28; font-weight: 900; }
 
-        /* Кликер */
-        .clicker-container { position: relative; margin: 20px 0; }
-        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px;}
-        #btn-clicker:disabled { opacity: 0.5; cursor: not-allowed; }
+        #btn-clicker { background: linear-gradient(45deg, #111, #222); border: 2px solid var(--main); height: 80px; font-size: 20px; color: #fff; cursor: pointer; border-radius: 16px; width: 100%; }
+        #btn-clicker:disabled { opacity: 0.5; }
         
         .plus-one { position: absolute; color: var(--main); font-weight: 900; font-size: 26px; animation: flyUp 0.8s forwards; pointer-events: none; z-index: 10; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-        /* Промокод */
         .promo-box { display: flex; gap: 10px; margin-bottom: 20px; }
-        .promo-box input { flex: 1; background: #111; border: 1px solid var(--main); border-radius: 12px; color: #fff; padding: 12px; outline: none; font-size: 15px; }
+        .promo-box input { flex: 1; background: #111; border: 1px solid var(--main); border-radius: 12px; color: #fff; padding: 12px; outline: none; }
         .promo-box button { background: var(--main); border: none; border-radius: 12px; color: #fff; padding: 0 20px; font-weight: bold; cursor: pointer; }
 
-        /* Игры - сетка */
         .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 13px;}
-        .btn-game:active { transform: scale(0.97); }
+        .btn-game { background: #000; border: 2px solid var(--main); color: #fff; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* Бонус */
         .btn-daily { background: none; border: 2px dashed var(--main); border-radius: 16px; padding: 15px; color: var(--main); width: 100%; font-weight: 700; margin-bottom: 20px; cursor: pointer; }
 
-        /* Модальные окна (Мины, Админка, Открытие кейсов) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 30px; width: 90%; max-width: 340px; text-align: center; margin: 20px auto; }
+        .admin-card input { width: 100%; margin-bottom: 12px; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 10px; box-sizing: border-box; }
         
-        /* Исправленная админка - ТЕПЕРЬ ПО ЦЕНТРУ */
-        .admin-card { background: #111; border: 2px solid var(--main); border-radius: 20px; padding: 30px; width: 90%; max-width: 340px; text-align: center; margin: 20px auto; box-sizing: border-box; }
-        .admin-card h2 { color: var(--main); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
-        .admin-card input { width: 100%; margin-bottom: 12px; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 10px; box-sizing: border-box; outline: none; }
-        .admin-card hr { border: 0; border-top: 1px solid #222; margin: 15px 0; }
-        
-        /* Сетка мин */
         .mines-grid { display: grid; grid-template-columns: repeat(5, 55px); gap: 6px; }
         .cell { width: 55px; height: 55px; background: #0a0a0a; border: 1px solid var(--main); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
         
-        /* Модалка открытия кейса */
-        .case-opening-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 40px 20px; width: 90%; max-width: 360px; text-align: center; box-sizing: border-box; }
-        .case-opening-card h2 { color: var(--main); margin-top: 0; text-transform: uppercase; font-size: 20px; }
-        .winning-number { font-size: 50px; font-weight: 900; color: #ffca28; margin: 20px 0; letter-spacing: 2px; }
-        .money-sign { font-size: 30px; color: #fff; margin-left: 5px; }
-
+        .case-opening-card { background: #111; border: 2px solid var(--main); border-radius: 24px; padding: 40px 20px; width: 90%; max-width: 360px; text-align: center; }
+        .winning-number { font-size: 50px; font-weight: 900; color: #ffca28; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -95,6 +76,9 @@
 
     <a href="https://t.me/odwob" class="btn-link c-primary"><i class="fab fa-telegram"></i> TELEGRAM</a>
     <a href="https://t.me/Lqphu" class="btn-link c-outline"><i class="fas fa-users"></i> ТГ КАНАЛ</a>
+    
+    <a href="https://www.tiktok.com/@ar1xy.ru" class="btn-link c-dark"><i class="fab fa-tiktok"></i> МОЙ ТИК ТОК</a>
+    
     <a href="https://link.brawlstars.com/invite/friend/en/?tag=82Y08V20Q" class="btn-link c-outline"><i class="fas fa-gamepad"></i> ДРУЗЬЯ В БС</a>
     <a href="https://t.me/bypassrtp" class="btn-link c-outline"><i class="fas fa-shield-alt"></i> ЛУЧШИЙ ВПН</a>
 
@@ -103,7 +87,7 @@
     </div>
 
     <div class="clicker-container">
-        <button id="btn-clicker" onclick="doClick(event)" class="btn-link">КЛИКАТЬ (+1 💸)</button>
+        <button id="btn-clicker" onclick="doClick(event)">КЛИКАТЬ (+1 💸)</button>
     </div>
 
     <div class="promo-box">
@@ -121,35 +105,33 @@
     </div>
 </div>
 
-<div id="m-mines" class="modal">
-    <div id="mines-board" class="mines-grid"></div>
-    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="width:250px; margin-top:20px; display:none; background:#00ff41; color:#000!important;">ЗАБРАТЬ</button>
-    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
-</div>
-
 <div id="m-admin" class="modal">
     <div class="admin-card">
         <h2>Админ Панель</h2>
-        <button class="btn-link c-primary" style="padding:15px; width:100%; box-sizing:border-box;" onclick="bal+=10000; save(); alert('+10К 💸');">Выдать себе 10К 💸</button>
-        <hr>
-        <input type="text" id="adm-p-name" placeholder="Название (напр. GIFT)">
-        <input type="number" id="adm-p-sum" placeholder="Сумма (💸)">
-        <input type="number" id="adm-p-limit" placeholder="Лимит активаций">
-        <button class="btn-link c-outline" style="padding:15px; width:100%; box-sizing:border-box;" onclick="createPromo()">Создать Промокод</button>
-        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;">ЗАКРЫТЬ</button>
+        <button class="btn-link c-primary" onclick="bal+=10000; save(); alert('+10К 💸');">Выдать себе 10К 💸</button>
+        <input type="text" id="adm-p-name" placeholder="Название">
+        <input type="number" id="adm-p-sum" placeholder="Сумма">
+        <input type="number" id="adm-p-limit" placeholder="Лимит">
+        <button class="btn-link c-outline" style="border-color:var(--main); color:var(--main)!important; background:#000;" onclick="createPromo()">СОЗДАТЬ ПРОМО</button>
+        <button onclick="closeModals()" style="background:none; border:none; color:#666; margin-top:15px;">ЗАКРЫТЬ</button>
     </div>
 </div>
 
 <div id="m-case-opening" class="modal">
     <div class="case-opening-card">
-        <h2 id="opening-case-title">ОТКРЫТИЕ КЕЙСА...</h2>
-        <div class="winning-number"><span id="opening-val">0</span><span class="money-sign">💸</span></div>
-        <button id="case-close-btn" onclick="closeModals()" class="btn-link c-primary" style="display:none; width:200px; margin:0 auto; padding:15px;">ОК</button>
+        <h2 id="opening-case-title">ОТКРЫТИЕ...</h2>
+        <div class="winning-number"><span id="opening-val">0</span>💸</div>
+        <button id="case-close-btn" onclick="closeModals()" class="btn-link c-primary" style="display:none; width:200px; margin:0 auto;">ОК</button>
     </div>
 </div>
 
+<div id="m-mines" class="modal">
+    <div id="mines-board" class="mines-grid"></div>
+    <button id="take-btn" onclick="takeMines()" class="btn-link c-primary" style="display:none; margin-top:20px;">ЗАБРАТЬ</button>
+    <button onclick="closeModals()" style="color:#555; background:none; border:none; margin-top:20px;">ВЫЙТИ</button>
+</div>
+
 <script>
-    // Основные переменные и сохранение
     let bal = parseInt(localStorage.getItem('ar_bal')) || 0;
     let lastD = localStorage.getItem('ar_d') || 0;
     let promos = JSON.parse(localStorage.getItem('ar_promos')) || {};
@@ -162,26 +144,23 @@
         document.getElementById('bal-val').innerText = bal.toLocaleString();
     }
 
-    // Темы (точки)
     function setTheme(t) {
         if(t === 'default') document.body.removeAttribute('data-theme');
         else document.body.setAttribute('data-theme', t);
         localStorage.setItem('ar_theme', t);
     }
 
-    // Кликер (+1)
     function doClick(e) {
         const btn = document.getElementById('btn-clicker');
         bal++; save();
         const p = document.createElement('div');
         p.className = 'plus-one'; p.innerText = '+1';
-        p.style.left = (e.clientX || e.target.offsetLeft + 50) + 'px'; p.style.top = (e.clientY || e.target.offsetTop) + 'px';
+        p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 800);
-        btn.disabled = true; setTimeout(() => btn.disabled = false, 1000); // 1 сек задержка
+        btn.disabled = true; setTimeout(() => btn.disabled = false, 1000);
     }
 
-    // Админка (Вход 5 тапов по заголовку)
     let taps = 0;
     document.getElementById('adm-trigger').onclick = () => {
         taps++; if(taps >= 5) { if(prompt("ПАРОЛЬ")==="1234") openModal('m-admin'); taps=0; }
@@ -200,12 +179,11 @@
             bal += promos[v].s; promos[v].l--; 
             if(promos[v].l <= 0) delete promos[v];
             save(); alert("Успешно!"); document.getElementById('user-promo').value='';
-        } else alert("Неверный код или лимит вышел");
+        } else alert("Ошибка");
     }
 
-    // ИСПРАВЛЕННЫЕ ИГРЫ - ПРОВЕРКА СТАВКИ 100💸
     function initMines() {
-        if(bal < 100) return alert("Ставка 100 💸"); // Жесткая проверка
+        if(bal < 100) return alert("Ставка 100 💸");
         bal -= 100; mWin = 0; mActive = true; mPos = [];
         while(mPos.length < 4) { let r = Math.floor(Math.random()*25); if(!mPos.includes(r)) mPos.push(r); }
         openModal('m-mines');
@@ -225,49 +203,31 @@
     function takeMines() { bal += (100 + mWin); mActive = false; closeModals(); save(); }
 
     function startCrash() {
-        if(bal < 100) return alert("Ставка 100 💸"); // Жесткая проверка
+        if(bal < 100) return alert("Ставка 100 💸");
         bal -= 100; let m = (Math.random()*3).toFixed(2);
-        if(m < 1.1) alert("CRASH! 0.00x");
-        else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w + "💸 ("+m+"x)"); }
+        if(m < 1.1) alert("CRASH!"); else { let w = Math.floor(100*m); bal += w; alert("ВЫИГРЫШ: " + w); }
         save();
     }
 
-    // НОВАЯ АНИМАЦИЯ КЕЙСОВ (КРУТИЛКА БАЛАНСА)
     function initCaseOpening(cost) {
         if(bal < cost) return alert("Мало монет");
         bal -= cost; save();
-
-        // Сбрасываем модалку
         document.getElementById('case-close-btn').style.display = 'none';
         document.getElementById('opening-val').innerText = '0';
-        document.getElementById('opening-case-title').innerText = cost === 100 ? 'ОТКРЫТИЕ LITE CASE' : 'ОТКРЫТИЕ PRO CASE';
         openModal('m-case-opening');
-
-        // Определяем выигрыш
-        let win = cost === 100 ? [50, 150, 300][Math.floor(Math.random()*3)] : [500, 2000, 5000][Math.floor(Math.random()*3)];
-        
-        // Логика анимации (счетчик)
+        let win = cost === 100 ? [50, 150, 400][Math.floor(Math.random()*3)] : [500, 2000, 6000][Math.floor(Math.random()*3)];
         let i = 0;
-        let el = document.getElementById('opening-val');
         let timer = setInterval(() => {
-            // Быстро меняем цифры от 0 до выигрыша
-            el.innerText = Math.floor(Math.random() * win);
-            if(i++ > 20) { // Длительность анимации
-                clearInterval(timer);
-                el.innerText = win; // Ставим финальное число
-                bal += win; save();
-                document.getElementById('case-close-btn').style.display = 'block'; // Показываем ОК
-            }
-        }, 50); // Скорость смены цифр
+            document.getElementById('opening-val').innerText = Math.floor(Math.random() * win);
+            if(i++ > 20) { clearInterval(timer); document.getElementById('opening-val').innerText = win; bal += win; save(); document.getElementById('case-close-btn').style.display = 'block'; }
+        }, 50);
     }
 
-    // Бонус 24ч
     function claimDaily() {
         if(Date.now() - lastD < 86400000) return alert("Жди 24ч");
-        bal += 1000; lastD = Date.now(); save(); alert("+1000 💸!");
+        bal += 1000; lastD = Date.now(); save(); alert("+1000!");
     }
 
-    // Модалки
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
     if(localStorage.getItem('ar_theme')) setTheme(localStorage.getItem('ar_theme'));
